@@ -1,22 +1,23 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, MapPin, Star, Users, Shield, Heart, Mountain, Waves } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Star, MapPin, Users, Mountain, Waves, Trees, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import PropertyCard from '@/components/PropertyCard';
-import { sampleProperties } from '@/data/sampleProperties';
+import { useProperties } from '@/hooks/useProperties';
 
 const Landing = () => {
-  const featuredProperties = sampleProperties.filter(p => p.featured);
+  const { data: allProperties = [], isLoading } = useProperties();
+  const featuredProperties = allProperties.filter(property => property.featured).slice(0, 3);
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: 0.1
       }
     }
   };
@@ -27,160 +28,163 @@ const Landing = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <motion.section 
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-        className="relative bg-gradient-to-r from-primary-600 to-primary-700 text-white py-20 lg:py-32"
-      >
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div variants={itemVariants}>
-            <Badge className="bg-white/20 text-white border-white/30 mb-6">
-              🌿 Curated Unique Stays Across India
-            </Badge>
-          </motion.div>
-          
-          <motion.h1 
-            variants={itemVariants}
-            className="text-4xl lg:text-6xl font-bold mb-6 leading-tight"
-          >
-            Discover Your Perfect
-            <br />
-            <span className="text-accent-400">Vibe Stay</span>
-          </motion.h1>
-          
-          <motion.p 
-            variants={itemVariants}
-            className="text-xl lg:text-2xl mb-8 text-primary-100 max-w-3xl mx-auto"
-          >
-            From misty mountain cottages to riverside bamboo villas. Find handpicked, authentic stays that match your travel vibe.
-          </motion.p>
-          
-          <motion.div 
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4"
-          >
-            <Button 
-              size="lg" 
-              className="bg-accent-500 hover:bg-accent-600 text-white px-8 py-4 text-lg w-full sm:w-auto"
-              asChild
-            >
-              <Link to="/properties">
-                Explore Properties
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-white text-white hover:bg-white hover:text-primary-700 px-8 py-4 text-lg w-full sm:w-auto"
-              asChild
-            >
-              <Link to="/contact">List Your Property</Link>
-            </Button>
-          </motion.div>
-        </div>
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-primary-50 to-white">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4')] bg-cover bg-center opacity-10"></div>
         
-        {/* Background Pattern */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg className="w-full h-20 text-white" fill="currentColor" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M1200 120L0 16.48V0H1200V120Z" />
-          </svg>
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+              Discover Your Perfect{' '}
+              <span className="text-primary-600">Vibe</span>
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              Curated unique stays across India. From mountain villas to riverside cabins, 
+              find your escape from the ordinary.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button size="lg" asChild className="bg-primary-600 hover:bg-primary-700 text-lg px-8 py-3">
+                <Link to="/properties">
+                  Explore Properties
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+              
+              <Button size="lg" variant="outline" asChild className="text-lg px-8 py-3">
+                <Link to="/about">
+                  Learn More
+                </Link>
+              </Button>
+            </div>
+            
+            <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-gray-600">
+              <div className="flex items-center">
+                <Star className="h-5 w-5 text-yellow-400 fill-current mr-1" />
+                <span>4.8+ Average Rating</span>
+              </div>
+              <div className="flex items-center">
+                <MapPin className="h-5 w-5 text-primary-600 mr-1" />
+                <span>{allProperties.length}+ Unique Properties</span>
+              </div>
+              <div className="flex items-center">
+                <Heart className="h-5 w-5 text-red-500 mr-1" />
+                <span>10,000+ Happy Guests</span>
+              </div>
+            </div>
+          </motion.div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Why VibeStays Section */}
-      <motion.section 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={containerVariants}
-        className="py-16 lg:py-24 bg-gray-50"
-      >
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+            className="text-center mb-16"
+          >
+            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Why Choose VibeStays?
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We handpick unique properties that offer authentic experiences, ensuring every stay matches your travel vibe perfectly.
-            </p>
+            </motion.h2>
+            <motion.p variants={itemVariants} className="text-xl text-gray-600 max-w-2xl mx-auto">
+              We curate exceptional stays that offer more than just accommodation—they offer experiences.
+            </motion.p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                icon: <Shield className="h-8 w-8" />,
-                title: "Verified Properties",
-                description: "Every property is personally verified by our team for quality and authenticity."
-              },
-              {
-                icon: <Heart className="h-8 w-8" />,
-                title: "Curated Experiences",
-                description: "Handpicked stays that offer unique experiences beyond just accommodation."
-              },
-              {
-                icon: <MapPin className="h-8 w-8" />,
-                title: "Local Insights",
-                description: "Get insider tips and local recommendations from our community of hosts."
-              },
-              {
-                icon: <Users className="h-8 w-8" />,
-                title: "Personal Support",
-                description: "Direct contact with hosts and our team for personalized assistance."
-              }
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                className="text-center p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 text-primary-600 rounded-full mb-4">
-                  {feature.icon}
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </motion.div>
-            ))}
-          </div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
+            <motion.div variants={itemVariants} className="text-center p-6">
+              <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Mountain className="h-8 w-8 text-primary-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Curated Collection</h3>
+              <p className="text-gray-600">
+                Every property is handpicked by our team for its unique character, stunning location, and exceptional hospitality.
+              </p>
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="text-center p-6">
+              <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Waves className="h-8 w-8 text-primary-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Authentic Experiences</h3>
+              <p className="text-gray-600">
+                Immerse yourself in local culture with insider tips, nearby experiences, and connections to the community.
+              </p>
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="text-center p-6">
+              <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Trees className="h-8 w-8 text-primary-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Nature-Focused</h3>
+              <p className="text-gray-600">
+                Reconnect with nature through properties that showcase India's diverse landscapes and natural beauty.
+              </p>
+            </motion.div>
+          </motion.div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Featured Properties */}
-      <motion.section 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={containerVariants}
-        className="py-16 lg:py-24"
-      >
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Featured Properties
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover our most loved stays, each offering a unique vibe and unforgettable experiences.
-            </p>
-          </motion.div>
-
-          <motion.div 
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
             variants={containerVariants}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
+            className="text-center mb-16"
           >
-            {featuredProperties.map((property) => (
-              <motion.div key={property.id} variants={itemVariants}>
-                <PropertyCard property={property} />
-              </motion.div>
-            ))}
+            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Featured Properties
+            </motion.h2>
+            <motion.p variants={itemVariants} className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Discover our most loved stays, each offering a unique perspective on India's natural beauty.
+            </motion.p>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="text-center">
-            <Button size="lg" className="bg-primary-600 hover:bg-primary-700" asChild>
+          {isLoading ? (
+            <div className="flex justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+            </div>
+          ) : (
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={containerVariants}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
+            >
+              {featuredProperties.map((property) => (
+                <motion.div key={property.id} variants={itemVariants}>
+                  <PropertyCard property={property} />
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <Button size="lg" asChild variant="outline" className="text-lg px-8 py-3">
               <Link to="/properties">
                 View All Properties
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -188,113 +192,152 @@ const Landing = () => {
             </Button>
           </motion.div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Categories Preview */}
-      <motion.section 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={containerVariants}
-        className="py-16 lg:py-24 bg-gray-50"
-      >
+      <section className="py-20 bg-primary-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+            className="text-center mb-16"
+          >
+            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Find Your Perfect Vibe
-            </h2>
-            <p className="text-xl text-gray-600">
-              Whether you seek adventure, romance, or tranquility - we have the perfect stay for you.
-            </p>
+            </motion.h2>
+            <motion.p variants={itemVariants} className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Whether you're seeking adventure, romance, or tranquility, we have the perfect stay for you.
+            </motion.p>
           </motion.div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+            className="grid grid-cols-2 md:grid-cols-5 gap-4"
+          >
             {[
-              {
-                title: "Mountain Escapes",
-                icon: <Mountain className="h-8 w-8" />,
-                count: "12+ properties",
-                image: "https://images.unsplash.com/photo-1472396961693-142e6e269027"
-              },
-              {
-                title: "Riverside Retreats",
-                icon: <Waves className="h-8 w-8" />,
-                count: "8+ properties",
-                image: "https://images.unsplash.com/photo-1500673922987-e212871fec22"
-              },
-              {
-                title: "Desert Adventures",
-                icon: <Star className="h-8 w-8" />,
-                count: "6+ properties",
-                image: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9"
-              },
-              {
-                title: "Jungle Hideaways",
-                icon: <Heart className="h-8 w-8" />,
-                count: "10+ properties",
-                image: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb"
-              }
-            ].map((category, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                className="relative overflow-hidden rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer group"
-              >
-                <div className="aspect-square relative">
-                  <img
-                    src={category.image}
-                    alt={category.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors" />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4">
-                    <div className="bg-white/20 p-3 rounded-full mb-3">
-                      {category.icon}
+              { theme: 'romantic', label: 'Romantic', color: 'bg-pink-100 text-pink-700' },
+              { theme: 'family', label: 'Family', color: 'bg-blue-100 text-blue-700' },
+              { theme: 'workation', label: 'Workation', color: 'bg-purple-100 text-purple-700' },
+              { theme: 'off-grid', label: 'Off-grid', color: 'bg-green-100 text-green-700' },
+              { theme: 'adventure', label: 'Adventure', color: 'bg-orange-100 text-orange-700' }
+            ].map((category) => (
+              <motion.div key={category.theme} variants={itemVariants}>
+                <Link to={`/properties?theme=${category.theme}`}>
+                  <div className="group cursor-pointer">
+                    <div className={`${category.color} rounded-lg p-6 text-center transition-all duration-300 group-hover:scale-105 group-hover:shadow-md`}>
+                      <div className="text-2xl mb-2">
+                        {category.theme === 'romantic' && '💕'}
+                        {category.theme === 'family' && '👨‍👩‍👧‍👦'}
+                        {category.theme === 'workation' && '💻'}
+                        {category.theme === 'off-grid' && '🏕️'}
+                        {category.theme === 'adventure' && '🏔️'}
+                      </div>
+                      <h3 className="font-semibold">{category.label}</h3>
                     </div>
-                    <h3 className="font-semibold text-lg mb-1">{category.title}</h3>
-                    <p className="text-sm text-white/90">{category.count}</p>
                   </div>
-                </div>
+                </Link>
               </motion.div>
             ))}
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Call to Action */}
-      <motion.section 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={containerVariants}
-        className="py-16 lg:py-24 bg-primary-600 text-white"
-      >
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.h2 variants={itemVariants} className="text-3xl lg:text-4xl font-bold mb-6">
-            Ready to Find Your Perfect Stay?
-          </motion.h2>
-          <motion.p variants={itemVariants} className="text-xl mb-8 text-primary-100">
-            Join thousands of travelers who have discovered their ideal vibe with VibeStays.
-          </motion.p>
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Button 
-              size="lg" 
-              className="bg-white text-primary-700 hover:bg-gray-100 px-8 py-4 text-lg w-full sm:w-auto"
-              asChild
-            >
-              <Link to="/properties">Start Exploring</Link>
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-white text-white hover:bg-white hover:text-primary-700 px-8 py-4 text-lg w-full sm:w-auto"
-              asChild
-            >
-              <Link to="/contact">List Your Property</Link>
-            </Button>
           </motion.div>
         </div>
-      </motion.section>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+            className="text-center mb-16"
+          >
+            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              What Our Guests Say
+            </motion.h2>
+            <motion.p variants={itemVariants} className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Real experiences from travelers who found their perfect vibe with us.
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
+            {[
+              {
+                name: "Priya & Arjun",
+                location: "Mumbai",
+                comment: "The mountain villa in Manali was absolutely magical. Perfect for our anniversary getaway!",
+                rating: 5
+              },
+              {
+                name: "The Sharma Family",
+                location: "Delhi",
+                comment: "Our kids loved the treehouse experience. VibeStays made our family vacation unforgettable.",
+                rating: 5
+              },
+              {
+                name: "Rahul",
+                location: "Bangalore",
+                comment: "Working remotely from the riverside cabin was a dream. Great WiFi and even better views!",
+                rating: 5
+              }
+            ].map((testimonial, index) => (
+              <motion.div key={index} variants={itemVariants} className="bg-gray-50 rounded-lg p-6">
+                <div className="flex items-center mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4 italic">"{testimonial.comment}"</p>
+                <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                <div className="text-sm text-gray-600">{testimonial.location}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-primary-600 text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Ready to Find Your Vibe?
+            </h2>
+            <p className="text-xl mb-8 opacity-90">
+              Join thousands of travelers who have discovered their perfect escape with VibeStays.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" asChild className="bg-white text-primary-600 hover:bg-gray-100 text-lg px-8 py-3">
+                <Link to="/properties">
+                  Start Exploring
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white hover:text-primary-600 text-lg px-8 py-3">
+                <Link to="/contact">
+                  List Your Property
+                </Link>
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 };

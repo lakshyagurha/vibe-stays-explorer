@@ -10,15 +10,26 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { sampleProperties } from '@/data/sampleProperties';
+import { useProperty } from '@/hooks/useProperties';
 
 const PropertyDetail = () => {
   const { id } = useParams();
-  const property = sampleProperties.find(p => p.id === id);
+  const { data: property, isLoading, error } = useProperty(id || '');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
-  if (!property) {
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading property...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !property) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -88,24 +99,26 @@ const PropertyDetail = () => {
           />
           
           {/* Gallery Controls */}
-          <div className="absolute inset-0 flex items-center justify-between p-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={prevImage}
-              className="bg-black/50 text-white hover:bg-black/70 rounded-full p-2"
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={nextImage}
-              className="bg-black/50 text-white hover:bg-black/70 rounded-full p-2"
-            >
-              <ChevronRight className="h-6 w-6" />
-            </Button>
-          </div>
+          {property.images.length > 1 && (
+            <div className="absolute inset-0 flex items-center justify-between p-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={prevImage}
+                className="bg-black/50 text-white hover:bg-black/70 rounded-full p-2"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={nextImage}
+                className="bg-black/50 text-white hover:bg-black/70 rounded-full p-2"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </Button>
+            </div>
+          )}
 
           {/* Image Counter */}
           <div className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
@@ -161,8 +174,8 @@ const PropertyDetail = () => {
               <div className="flex items-center space-x-4 mb-4">
                 <div className="flex items-center">
                   <Star className="h-5 w-5 text-yellow-400 fill-current" />
-                  <span className="ml-1 font-medium">{property.rating}</span>
-                  <span className="ml-1 text-gray-600">({property.reviewCount} reviews)</span>
+                  <span className="ml-1 font-medium">{property.rating || 0}</span>
+                  <span className="ml-1 text-gray-600">({property.reviewCount || 0} reviews)</span>
                 </div>
                 
                 <div className="flex items-center space-x-4 text-gray-600">
@@ -186,10 +199,10 @@ const PropertyDetail = () => {
                 <Badge variant="outline" className="bg-primary-50 text-primary-700 border-primary-200">
                   {property.propertyType}
                 </Badge>
-                {property.views.map(view => (
+                {property.views?.map(view => (
                   <Badge key={view} variant="outline">{view}</Badge>
                 ))}
-                {property.themes.map(theme => (
+                {property.themes?.map(theme => (
                   <Badge key={theme} variant="outline">{theme}</Badge>
                 ))}
               </div>
@@ -206,22 +219,25 @@ const PropertyDetail = () => {
             <Separator className="mb-6" />
 
             {/* Amenities */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Amenities</h2>
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                {property.amenities.map((amenity) => (
-                  <div key={amenity} className="flex items-center space-x-2">
-                    {amenityIcons[amenity] || amenityIcons.Default}
-                    <span className="text-gray-700">{amenity}</span>
+            {property.amenities && property.amenities.length > 0 && (
+              <>
+                <div className="mb-8">
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Amenities</h2>
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                    {property.amenities.map((amenity) => (
+                      <div key={amenity} className="flex items-center space-x-2">
+                        {amenityIcons[amenity] || amenityIcons.Default}
+                        <span className="text-gray-700">{amenity}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <Separator className="mb-6" />
+                </div>
+                <Separator className="mb-6" />
+              </>
+            )}
 
             {/* Nearby Experiences */}
-            {property.nearbyExperiences.length > 0 && (
+            {property.nearbyExperiences && property.nearbyExperiences.length > 0 && (
               <>
                 <div className="mb-8">
                   <h2 className="text-xl font-semibold text-gray-900 mb-4">Nearby Experiences</h2>
@@ -239,7 +255,7 @@ const PropertyDetail = () => {
             )}
 
             {/* Local Tips */}
-            {property.localTips.length > 0 && (
+            {property.localTips && property.localTips.length > 0 && (
               <>
                 <div className="mb-8">
                   <h2 className="text-xl font-semibold text-gray-900 mb-4">Local Tips</h2>
@@ -257,7 +273,7 @@ const PropertyDetail = () => {
             )}
 
             {/* Reviews */}
-            {property.reviews.length > 0 && (
+            {property.reviews && property.reviews.length > 0 && (
               <div className="mb-8">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Reviews</h2>
                 <div className="space-y-6">
@@ -362,19 +378,23 @@ const PropertyDetail = () => {
               className="max-w-full max-h-full object-contain"
             />
             
-            <Button
-              onClick={prevImage}
-              className="absolute left-4 bg-white/20 text-white hover:bg-white/30 rounded-full p-2"
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </Button>
-            
-            <Button
-              onClick={nextImage}
-              className="absolute right-4 bg-white/20 text-white hover:bg-white/30 rounded-full p-2"
-            >
-              <ChevronRight className="h-6 w-6" />
-            </Button>
+            {property.images.length > 1 && (
+              <>
+                <Button
+                  onClick={prevImage}
+                  className="absolute left-4 bg-white/20 text-white hover:bg-white/30 rounded-full p-2"
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </Button>
+                
+                <Button
+                  onClick={nextImage}
+                  className="absolute right-4 bg-white/20 text-white hover:bg-white/30 rounded-full p-2"
+                >
+                  <ChevronRight className="h-6 w-6" />
+                </Button>
+              </>
+            )}
             
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/20 text-white px-4 py-2 rounded-full text-sm">
               {currentImageIndex + 1} / {property.images.length}

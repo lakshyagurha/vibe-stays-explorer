@@ -7,25 +7,29 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { sampleProperties } from '@/data/sampleProperties';
-import { Property } from '@/types/property';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
+import { useProperties } from '@/hooks/useProperties';
 
 const Admin = () => {
-  const [properties] = useState<Property[]>(sampleProperties);
+  const { user, isAdmin, loading, signIn, signOut } = useAdminAuth();
+  const { data: properties = [] } = useProperties();
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Mock authentication - in real app, this would be handled by Supabase auth
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [loginError, setLoginError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock credentials for demo
-    if (credentials.email === 'admin@vibestays.com' && credentials.password === 'demo123') {
-      setIsAuthenticated(true);
-    } else {
-      alert('Invalid credentials. Use: admin@vibestays.com / demo123');
+    setLoginError('');
+    
+    const { error } = await signIn(credentials.email, credentials.password);
+    
+    if (error) {
+      setLoginError(error.message);
     }
+  };
+
+  const handleLogout = async () => {
+    await signOut();
   };
 
   const filteredProperties = properties.filter(property =>
@@ -37,10 +41,21 @@ const Admin = () => {
     totalProperties: properties.length,
     featuredProperties: properties.filter(p => p.featured).length,
     verifiedProperties: properties.filter(p => p.verified).length,
-    totalReviews: properties.reduce((sum, p) => sum + p.reviewCount, 0)
+    totalReviews: properties.reduce((sum, p) => sum + (p.reviewCount || 0), 0)
   };
 
-  if (!isAuthenticated) {
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user || !isAdmin) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <motion.div
@@ -75,10 +90,14 @@ const Admin = () => {
                 type="password"
                 value={credentials.password}
                 onChange={(e) => setCredentials({...credentials, password: e.target.value})}
-                placeholder="demo123"
+                placeholder="admin123"
                 required
               />
             </div>
+            
+            {loginError && (
+              <div className="text-red-600 text-sm">{loginError}</div>
+            )}
             
             <Button type="submit" className="w-full bg-primary-600 hover:bg-primary-700">
               Sign In
@@ -89,7 +108,7 @@ const Admin = () => {
             <p className="text-sm text-blue-800">
               <strong>Demo Credentials:</strong><br/>
               Email: admin@vibestays.com<br/>
-              Password: demo123
+              Password: admin123
             </p>
           </div>
         </motion.div>
@@ -107,7 +126,7 @@ const Admin = () => {
               <p className="text-gray-600">Manage your VibeStays properties</p>
             </div>
             <Button 
-              onClick={() => setIsAuthenticated(false)}
+              onClick={handleLogout}
               variant="outline"
             >
               Logout
@@ -136,7 +155,7 @@ const Admin = () => {
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.totalProperties}</div>
                   <p className="text-xs text-muted-foreground">
-                    +2 from last month
+                    Properties listed
                   </p>
                 </CardContent>
               </Card>
@@ -149,7 +168,7 @@ const Admin = () => {
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.featuredProperties}</div>
                   <p className="text-xs text-muted-foreground">
-                    {Math.round((stats.featuredProperties / stats.totalProperties) * 100)}% of total
+                    {stats.totalProperties > 0 ? Math.round((stats.featuredProperties / stats.totalProperties) * 100) : 0}% of total
                   </p>
                 </CardContent>
               </Card>
@@ -162,7 +181,7 @@ const Admin = () => {
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.verifiedProperties}</div>
                   <p className="text-xs text-muted-foreground">
-                    All properties verified
+                    Verified properties
                   </p>
                 </CardContent>
               </Card>
@@ -175,7 +194,7 @@ const Admin = () => {
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.totalReviews}</div>
                   <p className="text-xs text-muted-foreground">
-                    Avg rating: 4.7/5
+                    Customer reviews
                   </p>
                 </CardContent>
               </Card>
@@ -269,7 +288,7 @@ const Admin = () => {
                           <span>{property.bathrooms} bath</span>
                           <div className="flex items-center">
                             <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
-                            {property.rating} ({property.reviewCount})
+                            {property.rating || 0} ({property.reviewCount || 0})
                           </div>
                         </div>
 
@@ -302,7 +321,7 @@ const Admin = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
-                  {properties.flatMap(p => p.reviews).map((review) => {
+                  {properties.flatMap(p => p.reviews || []).map((review) => {
                     const property = properties.find(p => p.id === review.propertyId);
                     return (
                       <div key={review.id} className="border-b border-gray-200 pb-6 last:border-b-0">

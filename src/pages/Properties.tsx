@@ -3,14 +3,15 @@ import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import PropertyCard from '@/components/PropertyCard';
 import PropertyFilters from '@/components/PropertyFilters';
-import { sampleProperties } from '@/data/sampleProperties';
-import { FilterOptions, Property } from '@/types/property';
+import { useProperties } from '@/hooks/useProperties';
+import { FilterOptions } from '@/types/property';
 
 const Properties = () => {
   const [filters, setFilters] = useState<FilterOptions>({});
+  const { data: properties = [], isLoading, error } = useProperties();
 
   const filteredProperties = useMemo(() => {
-    let filtered = [...sampleProperties];
+    let filtered = [...properties];
 
     // Location filter
     if (filters.location) {
@@ -62,7 +63,7 @@ const Properties = () => {
     if (filters.sortBy) {
       switch (filters.sortBy) {
         case 'rating':
-          filtered.sort((a, b) => b.rating - a.rating);
+          filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
           break;
         case 'price_low':
           filtered.sort((a, b) => a.price - b.price);
@@ -71,7 +72,7 @@ const Properties = () => {
           filtered.sort((a, b) => b.price - a.price);
           break;
         case 'popular':
-          filtered.sort((a, b) => b.reviewCount - a.reviewCount);
+          filtered.sort((a, b) => (b.reviewCount || 0) - (a.reviewCount || 0));
           break;
         case 'newest':
           filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -80,7 +81,7 @@ const Properties = () => {
     }
 
     return filtered;
-  }, [filters]);
+  }, [properties, filters]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -96,6 +97,28 @@ const Properties = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading properties...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">Error loading properties</p>
+          <p className="text-gray-600">{error.message}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

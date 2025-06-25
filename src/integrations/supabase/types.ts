@@ -9,7 +9,170 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      admin_users: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          password_hash: string
+          role: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          password_hash: string
+          role?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          password_hash?: string
+          role?: string | null
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          amenities: string[] | null
+          bathrooms: number
+          bedrooms: number
+          contact_number: string
+          created_at: string
+          description: string
+          featured: boolean | null
+          host_name: string
+          id: string
+          images: string[]
+          local_tips: string[] | null
+          location: string
+          max_guests: number
+          name: string
+          nearby_experiences: string[] | null
+          price: number
+          price_unit: string
+          property_type: string
+          rating: number | null
+          review_count: number | null
+          seasonal_images: string[] | null
+          short_description: string
+          state: string
+          themes: string[] | null
+          updated_at: string
+          verified: boolean | null
+          videos: string[] | null
+          views: string[] | null
+          whatsapp_number: string
+        }
+        Insert: {
+          amenities?: string[] | null
+          bathrooms: number
+          bedrooms: number
+          contact_number: string
+          created_at?: string
+          description: string
+          featured?: boolean | null
+          host_name: string
+          id?: string
+          images?: string[]
+          local_tips?: string[] | null
+          location: string
+          max_guests: number
+          name: string
+          nearby_experiences?: string[] | null
+          price: number
+          price_unit: string
+          property_type: string
+          rating?: number | null
+          review_count?: number | null
+          seasonal_images?: string[] | null
+          short_description: string
+          state: string
+          themes?: string[] | null
+          updated_at?: string
+          verified?: boolean | null
+          videos?: string[] | null
+          views?: string[] | null
+          whatsapp_number: string
+        }
+        Update: {
+          amenities?: string[] | null
+          bathrooms?: number
+          bedrooms?: number
+          contact_number?: string
+          created_at?: string
+          description?: string
+          featured?: boolean | null
+          host_name?: string
+          id?: string
+          images?: string[]
+          local_tips?: string[] | null
+          location?: string
+          max_guests?: number
+          name?: string
+          nearby_experiences?: string[] | null
+          price?: number
+          price_unit?: string
+          property_type?: string
+          rating?: number | null
+          review_count?: number | null
+          seasonal_images?: string[] | null
+          short_description?: string
+          state?: string
+          themes?: string[] | null
+          updated_at?: string
+          verified?: boolean | null
+          videos?: string[] | null
+          views?: string[] | null
+          whatsapp_number?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          approved: boolean | null
+          comment: string
+          created_at: string
+          guest_name: string
+          id: string
+          property_id: string
+          rating: number
+          verified: boolean | null
+        }
+        Insert: {
+          approved?: boolean | null
+          comment: string
+          created_at?: string
+          guest_name: string
+          id?: string
+          property_id: string
+          rating: number
+          verified?: boolean | null
+        }
+        Update: {
+          approved?: boolean | null
+          comment?: string
+          created_at?: string
+          guest_name?: string
+          id?: string
+          property_id?: string
+          rating?: number
+          verified?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
