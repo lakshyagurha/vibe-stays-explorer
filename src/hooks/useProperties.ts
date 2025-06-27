@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query';
 import { Property } from '@/types/property';
 
@@ -186,8 +185,8 @@ const mockProperties: Property[] = [
     price: 7200,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
-      'https://images.unsplash.com/photo-1590004953392-5aba2e72269a',
+      'https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151',
+      'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
       'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
       'https://images.unsplash.com/photo-1564013799919-ab600027ffc6',
       'https://images.unsplash.com/photo-1440581572325-0bea30075d9d'
@@ -307,9 +306,9 @@ const mockProperties: Property[] = [
     price: 9500,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6',
-      'https://images.unsplash.com/photo-1440581572325-0bea30075d9d',
+      'https://images.unsplash.com/photo-1472396961693-142e6e269027',
+      'https://images.unsplash.com/photo-1504893524553-b855bce32c67',
+      'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb',
       'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
       'https://images.unsplash.com/photo-1590004953392-5aba2e72269a'
     ],
