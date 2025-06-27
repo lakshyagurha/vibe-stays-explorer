@@ -14,9 +14,9 @@ export interface Property {
   maxGuests: number;
   bedrooms: number;
   bathrooms: number;
-  propertyType: 'villa' | 'tent' | 'homestay' | 'cabin' | 'treehouse' | 'houseboat';
-  views: ('mountain' | 'river' | 'jungle' | 'ocean' | 'village')[];
-  themes: ('romantic' | 'family' | 'workation' | 'off-grid' | 'adventure')[];
+  propertyType: 'villa' | 'tent' | 'homestay' | 'cabin' | 'treehouse' | 'houseboat' | 'cottage' | 'resort';
+  views: ('mountain' | 'river' | 'jungle' | 'ocean' | 'village' | 'forest' | 'lake' | 'valley' | 'himalayas' | 'waterfall' | 'fieldview')[];
+  themes: ('romantic' | 'family' | 'workation' | 'off-grid' | 'adventure' | 'eco-friendly' | 'ayurveda-retreat' | 'honeymoon' | 'family-getaway' | 'corporate-training' | 'school-education-stays')[];
   amenities: string[];
   nearbyExperiences: string[];
   localTips: string[];
