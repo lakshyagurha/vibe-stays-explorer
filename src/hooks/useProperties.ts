@@ -1,3 +1,4 @@
+
 import { useQuery } from '@tanstack/react-query';
 import { Property } from '@/types/property';
 
@@ -17,7 +18,11 @@ const mockProperties: Property[] = [
       'https://images.unsplash.com/photo-1564013799919-ab600027ffc6',
       'https://images.unsplash.com/photo-1502780402662-acc01917949e'
     ],
-    videos: ['https://www.youtube.com/watch?v=dQw4w9WgXcQ'],
+    videos: [
+      'https://drive.google.com/file/d/1jyDGHDltiMvNzGEvhl7r_sB9NbQ5I5zR/view?usp=sharing',
+      'https://drive.google.com/file/d/1j8JidRIL7ONZexNFMtqnlIvieVC70QIR/view?usp=drive_link',
+      'https://drive.google.com/file/d/1FtaMwe6lIwavPrp6Kfi4bePEDD2-Hqo2/view?usp=drive_link'
+    ],
     seasonalImages: [
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
       'https://images.unsplash.com/photo-1551524164-687a55dd1126',
@@ -69,7 +74,10 @@ const mockProperties: Property[] = [
       'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
       'https://images.unsplash.com/photo-1590004953392-5aba2e72269a'
     ],
-    videos: ['https://www.youtube.com/watch?v=example2'],
+    videos: [
+      'https://drive.google.com/file/d/1BD05ZZg-H6e0Ycbq0KfMvEE_fM04wa4r/view?usp=drive_link',
+      'https://drive.google.com/file/d/1hAjJwT1IrL8emR7W2DP3vNZwHvygJtdO/view?usp=drive_link'
+    ],
     seasonalImages: [
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
       'https://images.unsplash.com/photo-1551524164-687a55dd1126'
@@ -110,7 +118,11 @@ const mockProperties: Property[] = [
       'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
       'https://images.unsplash.com/photo-1506905925346-21bda4d32df4'
     ],
-    videos: ['https://www.youtube.com/watch?v=example3'],
+    videos: [
+      'https://drive.google.com/file/d/1x2X8UlXXVvU2tCQVmhf059AZZ_2Zw4Hu/view?usp=drive_link',
+      'https://drive.google.com/file/d/15GhIrzwuQCwAieR6G3sgWs191TIaDZmu/view?usp=drive_link',
+      'https://drive.google.com/file/d/1kEQYF7OP3ZLwufRllI81zmUqyXF9ubSq/view?usp=drive_link'
+    ],
     seasonalImages: [
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
       'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b'
@@ -150,7 +162,10 @@ const mockProperties: Property[] = [
       'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
       'https://images.unsplash.com/photo-1502780402662-acc01917949e'
     ],
-    videos: ['https://www.youtube.com/watch?v=example4'],
+    videos: [
+      'https://drive.google.com/file/d/1PBAAZL6v11StUewFpgBQR3oA_rFIowNY/view?usp=drive_link',
+      'https://drive.google.com/file/d/1yo99kgMaTlfUly09nL4UAZ53XQlbNOvS/view?usp=drive_link'
+    ],
     seasonalImages: [
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
       'https://images.unsplash.com/photo-1551524164-687a55dd1126'
@@ -191,7 +206,11 @@ const mockProperties: Property[] = [
       'https://images.unsplash.com/photo-1564013799919-ab600027ffc6',
       'https://images.unsplash.com/photo-1440581572325-0bea30075d9d'
     ],
-    videos: ['https://www.youtube.com/watch?v=example5'],
+    videos: [
+      'https://drive.google.com/file/d/1JFHgJHWGOn3FSG0s4YjRVvCF8ZFZ7yYq/view?usp=drive_link',
+      'https://drive.google.com/file/d/12ziy5udhe9hBOUn_H4mTbEBYAg06xJQ0/view?usp=drive_link',
+      'https://drive.google.com/file/d/16--wutfajVswutK7f4Y8qhb6-3m6iv0l/view?usp=drive_link'
+    ],
     seasonalImages: [
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
       'https://images.unsplash.com/photo-1551524164-687a55dd1126'
@@ -231,7 +250,10 @@ const mockProperties: Property[] = [
       'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
       'https://images.unsplash.com/photo-1564013799919-ab600027ffc6'
     ],
-    videos: ['https://www.youtube.com/watch?v=example6'],
+    videos: [
+      'https://drive.google.com/file/d/1Ilfb2Hoqsu6y0IWpHJCt9cFXDIHKZKqB/view?usp=drive_link',
+      'https://drive.google.com/file/d/1WjsTggou1uwYasyvSZLo5v9FCPdZE6FL/view?usp=drive_link'
+    ],
     seasonalImages: [
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
       'https://images.unsplash.com/photo-1551524164-687a55dd1126'
@@ -271,7 +293,11 @@ const mockProperties: Property[] = [
       'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
       'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b'
     ],
-    videos: ['https://www.youtube.com/watch?v=example7'],
+    videos: [
+      'https://drive.google.com/file/d/1619mhh2EhFREu2bEMiWHScK9dQacoUux/view?usp=drive_link',
+      'https://drive.google.com/file/d/1z74G0kGEOJvtgFF8nmchsuIrkr_AYZOb/view?usp=drive_link',
+      'https://drive.google.com/file/d/1GcJgyZxSpOrmrBidiF3zsxoBjke0Dhru/view?usp=drive_link'
+    ],
     seasonalImages: [
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
       'https://images.unsplash.com/photo-1551524164-687a55dd1126'
@@ -312,7 +338,9 @@ const mockProperties: Property[] = [
       'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
       'https://images.unsplash.com/photo-1590004953392-5aba2e72269a'
     ],
-    videos: ['https://www.youtube.com/watch?v=example8'],
+    videos: [
+      'https://drive.google.com/file/d/13HQsKJRSK2wlk3WDq10u9jGYE51z9SZS/view?usp=drive_link'
+    ],
     seasonalImages: [
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
       'https://images.unsplash.com/photo-1551524164-687a55dd1126'

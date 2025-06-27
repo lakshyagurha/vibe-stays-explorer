@@ -17,6 +17,16 @@ const PropertyDetail = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageType, setCurrentImageType] = useState<'regular' | 'seasonal' | '360' | 'video'>('regular');
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
+  // Function to convert Google Drive URL to embeddable format
+  const convertGoogleDriveUrl = (url: string) => {
+    const fileIdMatch = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    if (fileIdMatch) {
+      return `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
+    }
+    return url;
+  };
 
   // Mock data for enhanced features
   const mockSeasonalImages = [
@@ -26,7 +36,6 @@ const PropertyDetail = () => {
   ];
 
   const mock360Image = 'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb';
-  const mockVideo = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
 
   const mockCategorizedExperiences = {
     'Local Festivals': [
@@ -123,7 +132,7 @@ const PropertyDetail = () => {
       case '360':
         return [mock360Image];
       case 'video':
-        return [mockVideo];
+        return property.videos || [];
       default:
         return property.images;
     }
@@ -205,9 +214,9 @@ const PropertyDetail = () => {
         </div>
 
         <div className="aspect-[16/9] lg:aspect-[21/9] relative overflow-hidden">
-          {currentImageType === 'video' ? (
+          {currentImageType === 'video' && property.videos && property.videos.length > 0 ? (
             <iframe
-              src={mockVideo}
+              src={convertGoogleDriveUrl(property.videos[currentImageIndex])}
               title="Property Video"
               className="w-full h-full"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -222,7 +231,7 @@ const PropertyDetail = () => {
           )}
           
           {/* Gallery Controls */}
-          {getCurrentImages().length > 1 && currentImageType !== 'video' && (
+          {getCurrentImages().length > 1 && (
             <div className="absolute inset-0 flex items-center justify-between p-4">
               <Button
                 variant="ghost"
@@ -244,11 +253,9 @@ const PropertyDetail = () => {
           )}
 
           {/* Image Counter */}
-          {currentImageType !== 'video' && (
-            <div className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-              {currentImageIndex + 1} / {getCurrentImages().length}
-            </div>
-          )}
+          <div className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+            {currentImageIndex + 1} / {getCurrentImages().length}
+          </div>
 
           {/* View All Photos Button */}
           <Button
@@ -256,7 +263,7 @@ const PropertyDetail = () => {
             className="absolute bottom-4 right-4 bg-white text-gray-900 hover:bg-gray-100"
           >
             <Camera className="h-4 w-4 mr-2" />
-            View All Photos
+            View All
           </Button>
 
           {/* Property Badges */}
@@ -285,7 +292,6 @@ const PropertyDetail = () => {
         <div className="lg:grid lg:grid-cols-3 lg:gap-12">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            
             
             {/* Header */}
             <div className="mb-6">
@@ -344,6 +350,29 @@ const PropertyDetail = () => {
             </div>
 
             <Separator className="mb-6" />
+
+            {/* Videos Section */}
+            {property.videos && property.videos.length > 0 && (
+              <>
+                <div className="mb-8">
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Property Videos</h2>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    {property.videos.map((video, index) => (
+                      <div key={index} className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                        <iframe
+                          src={convertGoogleDriveUrl(video)}
+                          title={`Property Video ${index + 1}`}
+                          className="w-full h-full"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <Separator className="mb-6" />
+              </>
+            )}
 
             {/* Amenities */}
             {property.amenities && property.amenities.length > 0 && (
@@ -527,11 +556,23 @@ const PropertyDetail = () => {
           </Button>
           
           <div className="relative w-full h-full flex items-center justify-center p-4">
-            <img
-              src={getCurrentImages()[currentImageIndex]}
-              alt={property.name}
-              className="max-w-full max-h-full object-contain"
-            />
+            {currentImageType === 'video' && property.videos && property.videos.length > 0 ? (
+              <div className="w-full max-w-4xl aspect-video">
+                <iframe
+                  src={convertGoogleDriveUrl(property.videos[currentImageIndex])}
+                  title="Property Video"
+                  className="w-full h-full rounded-lg"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            ) : (
+              <img
+                src={getCurrentImages()[currentImageIndex]}
+                alt={property.name}
+                className="max-w-full max-h-full object-contain"
+              />
+            )}
             
             {getCurrentImages().length > 1 && (
               <>
