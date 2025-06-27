@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   ArrowLeft, Star, Users, Bed, Bath, MapPin, Phone, MessageCircle, 
   Wifi, Car, Utensils, Mountain, Heart, Shield, Camera, ChevronLeft, 
-  ChevronRight, X 
+  ChevronRight, X, Play, Calendar, Coffee, MapIcon 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +16,68 @@ const PropertyDetail = () => {
   const { data: property, isLoading, error } = useProperty(id || '');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [currentImageType, setCurrentImageType] = useState<'regular' | 'seasonal' | '360' | 'video'>('regular');
+
+  // Mock data for enhanced features
+  const mockSeasonalImages = [
+    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05',
+    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4',
+    'https://images.unsplash.com/photo-1523712999610-f77fbcfc3843'
+  ];
+
+  const mock360Image = 'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb';
+  const mockVideo = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+
+  const mockCategorizedExperiences = {
+    'Local Festivals': [
+      'Diwali celebration at village temple',
+      'Holi festival with local families',
+      'Harvest festival in autumn'
+    ],
+    'Local Cafes': [
+      'Mountain View Cafe - 2 km away',
+      'Riverside Tea House - 1.5 km away',
+      'Local Organic Farm Cafe - 3 km away'
+    ],
+    'Historical Places': [
+      'Ancient monastery ruins - 5 km away',
+      '200-year-old village temple - 1 km away',
+      'Colonial era bridge - 4 km away'
+    ]
+  };
+
+  const mockDetailedReviews = [
+    {
+      id: '1',
+      guestName: 'Priya Sharma',
+      rating: 5,
+      comment: 'Absolutely stunning property with incredible mountain views. The host was extremely helpful and the amenities were top-notch.',
+      verified: true,
+      createdAt: '2024-01-15',
+      approved: true,
+      detailedRatings: {
+        view: 5,
+        hygiene: 4,
+        foodService: 5,
+        host: 5
+      }
+    },
+    {
+      id: '2',
+      guestName: 'Rajesh Kumar',
+      rating: 4,
+      comment: 'Great place for a family vacation. Kids loved the nearby waterfall and the property was very clean.',
+      verified: true,
+      createdAt: '2024-01-10',
+      approved: true,
+      detailedRatings: {
+        view: 4,
+        hygiene: 5,
+        foodService: 4,
+        host: 4
+      }
+    }
+  ];
 
   if (isLoading) {
     return (
@@ -55,15 +116,46 @@ const PropertyDetail = () => {
     return `https://wa.me/${property.whatsappNumber.replace(/[^0-9]/g, '')}?text=${message}`;
   };
 
+  const getCurrentImages = () => {
+    switch (currentImageType) {
+      case 'seasonal':
+        return mockSeasonalImages;
+      case '360':
+        return [mock360Image];
+      case 'video':
+        return [mockVideo];
+      default:
+        return property.images;
+    }
+  };
+
   const nextImage = () => {
+    const images = getCurrentImages();
     setCurrentImageIndex((prev) => 
-      prev === property.images.length - 1 ? 0 : prev + 1
+      prev === images.length - 1 ? 0 : prev + 1
     );
   };
 
   const prevImage = () => {
+    const images = getCurrentImages();
     setCurrentImageIndex((prev) => 
-      prev === 0 ? property.images.length - 1 : prev - 1
+      prev === 0 ? images.length - 1 : prev - 1
+    );
+  };
+
+  const renderStars = (rating: number, size: 'sm' | 'md' = 'sm') => {
+    const starSize = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5';
+    return (
+      <div className="flex">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star
+            key={star}
+            className={`${starSize} ${
+              star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+            }`}
+          />
+        ))}
+      </div>
     );
   };
 
@@ -89,17 +181,48 @@ const PropertyDetail = () => {
         </div>
       </div>
 
-      {/* Image Gallery */}
+      {/* Enhanced Image Gallery */}
       <div className="relative">
+        {/* Image Type Selector */}
+        <div className="absolute top-4 left-4 z-30 flex space-x-2">
+          {['regular', 'seasonal', '360', 'video'].map((type) => (
+            <Button
+              key={type}
+              size="sm"
+              variant={currentImageType === type ? "default" : "secondary"}
+              onClick={() => {
+                setCurrentImageType(type as any);
+                setCurrentImageIndex(0);
+              }}
+              className="bg-white/90 hover:bg-white text-gray-900"
+            >
+              {type === 'regular' && 'Photos'}
+              {type === 'seasonal' && 'Seasonal'}
+              {type === '360' && '360°'}
+              {type === 'video' && <Play className="h-4 w-4" />}
+            </Button>
+          ))}
+        </div>
+
         <div className="aspect-[16/9] lg:aspect-[21/9] relative overflow-hidden">
-          <img
-            src={property.images[currentImageIndex]}
-            alt={property.name}
-            className="w-full h-full object-cover"
-          />
+          {currentImageType === 'video' ? (
+            <iframe
+              src={mockVideo}
+              title="Property Video"
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : (
+            <img
+              src={getCurrentImages()[currentImageIndex]}
+              alt={property.name}
+              className="w-full h-full object-cover"
+            />
+          )}
           
           {/* Gallery Controls */}
-          {property.images.length > 1 && (
+          {getCurrentImages().length > 1 && currentImageType !== 'video' && (
             <div className="absolute inset-0 flex items-center justify-between p-4">
               <Button
                 variant="ghost"
@@ -121,9 +244,11 @@ const PropertyDetail = () => {
           )}
 
           {/* Image Counter */}
-          <div className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-            {currentImageIndex + 1} / {property.images.length}
-          </div>
+          {currentImageType !== 'video' && (
+            <div className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+              {currentImageIndex + 1} / {getCurrentImages().length}
+            </div>
+          )}
 
           {/* View All Photos Button */}
           <Button
@@ -135,7 +260,7 @@ const PropertyDetail = () => {
           </Button>
 
           {/* Property Badges */}
-          <div className="absolute top-4 left-4 flex space-x-2">
+          <div className="absolute top-4 right-4 flex space-x-2">
             {property.featured && (
               <Badge className="bg-accent-500 text-white">Featured</Badge>
             )}
@@ -148,7 +273,7 @@ const PropertyDetail = () => {
           <Button
             variant="ghost"
             size="sm"
-            className="absolute top-4 right-4 bg-white/90 hover:bg-white text-gray-700 rounded-full p-2"
+            className="absolute top-16 right-4 bg-white/90 hover:bg-white text-gray-700 rounded-full p-2"
           >
             <Heart className="h-5 w-5" />
           </Button>
@@ -160,6 +285,8 @@ const PropertyDetail = () => {
         <div className="lg:grid lg:grid-cols-3 lg:gap-12">
           {/* Main Content */}
           <div className="lg:col-span-2">
+            
+            
             {/* Header */}
             <div className="mb-6">
               <div className="flex items-center text-sm text-gray-600 mb-2">
@@ -236,23 +363,32 @@ const PropertyDetail = () => {
               </>
             )}
 
-            {/* Nearby Experiences */}
-            {property.nearbyExperiences && property.nearbyExperiences.length > 0 && (
-              <>
-                <div className="mb-8">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Nearby Experiences</h2>
-                  <ul className="space-y-2">
-                    {property.nearbyExperiences.map((experience, index) => (
-                      <li key={index} className="flex items-start space-x-2">
-                        <div className="w-2 h-2 bg-primary-600 rounded-full mt-2 flex-shrink-0"></div>
-                        <span className="text-gray-700">{experience}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <Separator className="mb-6" />
-              </>
-            )}
+            {/* Categorized Nearby Experiences */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Nearby Experiences</h2>
+              <div className="space-y-6">
+                {Object.entries(mockCategorizedExperiences).map(([category, experiences]) => (
+                  <div key={category}>
+                    <h3 className="text-lg font-medium text-gray-800 mb-3 flex items-center">
+                      {category === 'Local Festivals' && <Calendar className="h-5 w-5 mr-2 text-primary-600" />}
+                      {category === 'Local Cafes' && <Coffee className="h-5 w-5 mr-2 text-primary-600" />}
+                      {category === 'Historical Places' && <MapIcon className="h-5 w-5 mr-2 text-primary-600" />}
+                      {category}
+                    </h3>
+                    <ul className="space-y-2 ml-7">
+                      {experiences.map((experience, index) => (
+                        <li key={index} className="flex items-start space-x-2">
+                          <div className="w-2 h-2 bg-primary-600 rounded-full mt-2 flex-shrink-0"></div>
+                          <span className="text-gray-700">{experience}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <Separator className="mb-6" />
 
             {/* Local Tips */}
             {property.localTips && property.localTips.length > 0 && (
@@ -272,34 +408,53 @@ const PropertyDetail = () => {
               </>
             )}
 
-            {/* Reviews */}
-            {property.reviews && property.reviews.length > 0 && (
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Reviews</h2>
-                <div className="space-y-6">
-                  {property.reviews.map((review) => (
-                    <div key={review.id} className="border-b border-gray-200 pb-6 last:border-b-0">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center space-x-2">
-                          <span className="font-medium text-gray-900">{review.guestName}</span>
-                          {review.verified && (
-                            <Badge variant="outline" className="text-xs">Verified</Badge>
-                          )}
-                        </div>
-                        <div className="flex items-center">
-                          <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                          <span className="ml-1 text-sm font-medium">{review.rating}</span>
-                        </div>
+            {/* Enhanced Reviews */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Reviews</h2>
+              <div className="space-y-6">
+                {mockDetailedReviews.map((review) => (
+                  <div key={review.id} className="border border-gray-200 rounded-lg p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-medium text-gray-900">{review.guestName}</span>
+                        {review.verified && (
+                          <Badge variant="outline" className="text-xs">Verified</Badge>
+                        )}
                       </div>
-                      <p className="text-gray-700">{review.comment}</p>
-                      <div className="text-xs text-gray-500 mt-2">
-                        {new Date(review.createdAt).toLocaleDateString()}
+                      <div className="flex items-center">
+                        {renderStars(review.rating)}
+                        <span className="ml-1 text-sm font-medium">{review.rating}</span>
                       </div>
                     </div>
-                  ))}
-                </div>
+
+                    {/* Detailed Ratings */}
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                      <div className="text-center">
+                        <div className="text-sm text-gray-600 mb-1">View</div>
+                        {renderStars(review.detailedRatings.view, 'sm')}
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm text-gray-600 mb-1">Hygiene</div>
+                        {renderStars(review.detailedRatings.hygiene, 'sm')}
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm text-gray-600 mb-1">Food Service</div>
+                        {renderStars(review.detailedRatings.foodService, 'sm')}
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm text-gray-600 mb-1">Host</div>
+                        {renderStars(review.detailedRatings.host, 'sm')}
+                      </div>
+                    </div>
+
+                    <p className="text-gray-700 mb-2">{review.comment}</p>
+                    <div className="text-xs text-gray-500">
+                      {new Date(review.createdAt).toLocaleDateString()}
+                    </div>
+                  </div>
+                ))}
               </div>
-            )}
+            </div>
           </div>
 
           {/* Booking Card */}
@@ -373,12 +528,12 @@ const PropertyDetail = () => {
           
           <div className="relative w-full h-full flex items-center justify-center p-4">
             <img
-              src={property.images[currentImageIndex]}
+              src={getCurrentImages()[currentImageIndex]}
               alt={property.name}
               className="max-w-full max-h-full object-contain"
             />
             
-            {property.images.length > 1 && (
+            {getCurrentImages().length > 1 && (
               <>
                 <Button
                   onClick={prevImage}
@@ -397,7 +552,7 @@ const PropertyDetail = () => {
             )}
             
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/20 text-white px-4 py-2 rounded-full text-sm">
-              {currentImageIndex + 1} / {property.images.length}
+              {currentImageIndex + 1} / {getCurrentImages().length}
             </div>
           </div>
         </div>

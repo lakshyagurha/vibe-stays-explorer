@@ -4,6 +4,7 @@ import { Filter, X, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Slider } from '@/components/ui/slider';
 import { FilterOptions } from '@/types/property';
 
 interface PropertyFiltersProps {
@@ -18,10 +19,14 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState<FilterOptions>(initialFilters);
   const [searchQuery, setSearchQuery] = useState(initialFilters.location || '');
+  const [priceRange, setPriceRange] = useState<[number, number]>(initialFilters.priceRange || [1000, 50000]);
 
   const propertyTypes = [
     { value: 'villa', label: 'Villa' },
     { value: 'tent', label: 'Tent' },
+    { value: 'camp', label: 'Camp' },
+    { value: 'cottage', label: 'Cottage' },
+    { value: 'resort', label: 'Resort' },
     { value: 'homestay', label: 'Homestay' },
     { value: 'cabin', label: 'Cabin' },
     { value: 'treehouse', label: 'Treehouse' },
@@ -30,18 +35,29 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 
   const views = [
     { value: 'mountain', label: 'Mountain' },
+    { value: 'forest', label: 'Forest' },
+    { value: 'lake', label: 'Lake' },
+    { value: 'valley', label: 'Valley' },
+    { value: 'himalayas', label: 'Himalayas' },
+    { value: 'village', label: 'Village' },
+    { value: 'waterfall', label: 'Waterfall' },
+    { value: 'fieldview', label: 'Field View' },
     { value: 'river', label: 'River' },
     { value: 'jungle', label: 'Jungle' },
-    { value: 'ocean', label: 'Ocean' },
-    { value: 'village', label: 'Village' }
+    { value: 'ocean', label: 'Ocean' }
   ];
 
   const themes = [
-    { value: 'romantic', label: 'Romantic' },
-    { value: 'family', label: 'Family' },
+    { value: 'eco-friendly', label: 'Eco Friendly' },
+    { value: 'ayurveda-retreat', label: 'Ayurveda Retreat' },
     { value: 'workation', label: 'Workation' },
-    { value: 'off-grid', label: 'Off-grid' },
-    { value: 'adventure', label: 'Adventure' }
+    { value: 'adventure', label: 'Adventure' },
+    { value: 'honeymoon', label: 'Honeymoon' },
+    { value: 'family-getaway', label: 'Family Getaway' },
+    { value: 'corporate-training', label: 'Corporate Training' },
+    { value: 'school-education-stays', label: 'School Education Stays' },
+    { value: 'romantic', label: 'Romantic' },
+    { value: 'off-grid', label: 'Off-grid' }
   ];
 
   const sortOptions = [
@@ -79,10 +95,19 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
     onFiltersChange(newFilters);
   };
 
+  const handlePriceChange = (value: number[]) => {
+    const newRange: [number, number] = [value[0], value[1]];
+    setPriceRange(newRange);
+    const newFilters = { ...filters, priceRange: newRange };
+    setFilters(newFilters);
+    onFiltersChange(newFilters);
+  };
+
   const clearFilters = () => {
     const newFilters: FilterOptions = {};
     setFilters(newFilters);
     setSearchQuery('');
+    setPriceRange([1000, 50000]);
     onFiltersChange(newFilters);
   };
 
@@ -153,6 +178,21 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
         {/* Expanded Filters */}
         {isOpen && (
           <div className="mt-4 pt-4 border-t border-gray-200 space-y-6">
+            {/* Price Range */}
+            <div>
+              <h3 className="text-sm font-medium text-gray-900 mb-3">
+                Price Range: ₹{priceRange[0].toLocaleString()} - ₹{priceRange[1].toLocaleString()}
+              </h3>
+              <Slider
+                value={priceRange}
+                onValueChange={handlePriceChange}
+                max={100000}
+                min={500}
+                step={500}
+                className="w-full max-w-md"
+              />
+            </div>
+
             {/* Property Types */}
             <div>
               <h3 className="text-sm font-medium text-gray-900 mb-3">Property Type</h3>
