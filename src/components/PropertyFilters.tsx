@@ -18,7 +18,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState<FilterOptions>(initialFilters);
-  const [searchQuery, setSearchQuery] = useState(initialFilters.location || '');
+  const [searchInput, setSearchInput] = useState(initialFilters.location || '');
   const [priceRange, setPriceRange] = useState<[number, number]>(initialFilters.priceRange || [1000, 15000]);
 
   const propertyTypes = [
@@ -75,7 +75,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
   };
 
   const handleSearchSubmit = () => {
-    const newFilters = { ...filters, location: searchQuery || undefined };
+    const newFilters = { ...filters, location: searchInput.trim() || undefined };
     setFilters(newFilters);
     onFiltersChange(newFilters);
   };
@@ -97,7 +97,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
   const clearFilters = () => {
     const newFilters: FilterOptions = {};
     setFilters(newFilters);
-    setSearchQuery('');
+    setSearchInput('');
     setPriceRange([1000, 15000]);
     onFiltersChange(newFilters);
   };
@@ -113,17 +113,6 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
     return count;
   };
 
-  // Simple handler that only updates local state
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSearchSubmit();
-    }
-  };
-
   return (
     <div className="bg-white border-b sticky top-16 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -134,9 +123,8 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
                 placeholder="Search by destination, state, or property name..."
-                value={searchQuery}
-                onChange={handleInputChange}
-                onKeyPress={handleKeyPress}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 className="pl-10 h-12"
               />
             </div>
