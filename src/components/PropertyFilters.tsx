@@ -34,16 +34,10 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 
   const views = [
     { value: 'mountain', label: 'Mountain View' },
-    { value: 'himalayas', label: 'Himalayan View' },
     { value: 'ocean', label: 'Sea View' },
     { value: 'lake', label: 'Lake View' },
     { value: 'river', label: 'River View' },
-    { value: 'forest', label: 'Forest View' },
-    { value: 'jungle', label: 'Jungle View' },
-    { value: 'waterfall', label: 'Waterfall View' },
-    { value: 'valley', label: 'Valley View' },
-    { value: 'village', label: 'Village View' },
-    { value: 'fieldview', label: 'Field View' }
+    { value: 'forest', label: 'Forest View' }
   ];
 
   const themes = [
@@ -55,8 +49,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
     { value: 'off-grid', label: 'Off-grid' },
     { value: 'workation', label: 'Workation' },
     { value: 'ayurveda-retreat', label: 'Ayurveda Retreat' },
-    { value: 'corporate-training', label: 'Corporate Training' },
-    { value: 'school-education-stays', label: 'Education Stays' }
+    { value: 'corporate-training', label: 'Corporate Training' }
   ];
 
   const sortOptions = [
@@ -65,16 +58,6 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
     { value: 'price_low', label: 'Price: Low to High' },
     { value: 'price_high', label: 'Price: High to Low' },
     { value: 'newest', label: 'Newest' }
-  ];
-
-  const destinations = [
-    { value: 'jibhi', label: 'Jibhi, Himachal Pradesh' },
-    { value: 'agatti', label: 'Agatti, Lakshadweep' },
-    { value: 'varkala', label: 'Varkala, Kerala' },
-    { value: 'tehri', label: 'Tehri Lake, Uttarakhand' },
-    { value: 'ziro', label: 'Ziro Town, Arunachal Pradesh' },
-    { value: 'corbett', label: 'Jim Corbett, Uttarakhand' },
-    { value: 'cherrapunji', label: 'Cherrapunji, Meghalaya' }
   ];
 
   const handleArrayFilter = (
@@ -112,13 +95,6 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
     onFiltersChange(newFilters);
   };
 
-  const handleDestinationFilter = (destination: string) => {
-    setSearchQuery(destination);
-    const newFilters = { ...filters, location: destination };
-    setFilters(newFilters);
-    onFiltersChange(newFilters);
-  };
-
   const clearFilters = () => {
     const newFilters: FilterOptions = {};
     setFilters(newFilters);
@@ -142,21 +118,21 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
     <div className="bg-white border-b sticky top-16 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {/* Search and Filter Toggle */}
-        <div className="flex items-center space-x-4 mb-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
-              placeholder="Search by destination (e.g., Jibhi, Varkala, Corbett)..."
+              placeholder="Search by destination, state, or property name..."
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="pl-10"
+              className="pl-10 h-12"
             />
           </div>
           
           <Button
             variant="outline"
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center space-x-2"
+            className="flex items-center justify-center space-x-2 h-12 px-6"
           >
             <Filter className="h-4 w-4" />
             <span>Filters</span>
@@ -168,52 +144,38 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
           </Button>
 
           {getActiveFilterCount() > 0 && (
-            <Button variant="ghost" onClick={clearFilters} size="sm">
+            <Button variant="ghost" onClick={clearFilters} size="sm" className="h-12">
               <X className="h-4 w-4 mr-1" />
               Clear
             </Button>
           )}
         </div>
 
-        {/* Quick Destination Filters */}
-        <div className="flex items-center space-x-2 overflow-x-auto pb-2 mb-2">
-          <span className="text-sm text-gray-600 whitespace-nowrap">Popular:</span>
-          {destinations.slice(0, 4).map((destination) => (
-            <Button
-              key={destination.value}
-              variant="outline"
-              size="sm"
-              onClick={() => handleDestinationFilter(destination.label)}
-              className="whitespace-nowrap"
-            >
-              {destination.label.split(',')[0]}
-            </Button>
-          ))}
-        </div>
-
         {/* Sort Options */}
-        <div className="flex items-center space-x-2 overflow-x-auto pb-2">
-          <span className="text-sm text-gray-600 whitespace-nowrap">Sort by:</span>
-          {sortOptions.map((option) => (
-            <Button
-              key={option.value}
-              variant={filters.sortBy === option.value ? "default" : "outline"}
-              size="sm"
-              onClick={() => handleSortChange(option.value)}
-              className="whitespace-nowrap"
-            >
-              {option.label}
-            </Button>
-          ))}
+        <div className="flex items-center space-x-2 overflow-x-auto pb-2 mb-2">
+          <span className="text-sm text-gray-600 whitespace-nowrap font-medium">Sort by:</span>
+          <div className="flex space-x-2">
+            {sortOptions.map((option) => (
+              <Button
+                key={option.value}
+                variant={filters.sortBy === option.value ? "default" : "outline"}
+                size="sm"
+                onClick={() => handleSortChange(option.value)}
+                className="whitespace-nowrap"
+              >
+                {option.label}
+              </Button>
+            ))}
+          </div>
         </div>
 
         {/* Expanded Filters */}
         {isOpen && (
-          <div className="mt-4 pt-4 border-t border-gray-200 space-y-6">
+          <div className="mt-6 pt-6 border-t border-gray-200 space-y-8">
             {/* Price Range */}
             <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">
-                Price Range: ₹{priceRange[0].toLocaleString()} - ₹{priceRange[1].toLocaleString()}
+              <h3 className="text-sm font-semibold text-gray-900 mb-4">
+                Price Range: ₹{priceRange[0].toLocaleString()} - ₹{priceRange[1].toLocaleString()} per night
               </h3>
               <Slider
                 value={priceRange}
@@ -225,33 +187,17 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
               />
             </div>
 
-            {/* All Destinations */}
-            <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">Destinations</h3>
-              <div className="flex flex-wrap gap-2">
-                {destinations.map((destination) => (
-                  <Button
-                    key={destination.value}
-                    variant={searchQuery.includes(destination.label) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleDestinationFilter(destination.label)}
-                  >
-                    {destination.label}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
             {/* Property Types */}
             <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">Property Type</h3>
-              <div className="flex flex-wrap gap-2">
+              <h3 className="text-sm font-semibold text-gray-900 mb-4">Property Type</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                 {propertyTypes.map((type) => (
                   <Button
                     key={type.value}
                     variant={filters.propertyType?.includes(type.value) ? "default" : "outline"}
                     size="sm"
                     onClick={() => handleArrayFilter(filters.propertyType, type.value, 'propertyType')}
+                    className="justify-start"
                   >
                     {type.label}
                   </Button>
@@ -261,14 +207,15 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 
             {/* Views */}
             <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">Views</h3>
-              <div className="flex flex-wrap gap-2">
+              <h3 className="text-sm font-semibold text-gray-900 mb-4">Views</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                 {views.map((view) => (
                   <Button
                     key={view.value}
                     variant={filters.views?.includes(view.value) ? "default" : "outline"}
                     size="sm"
                     onClick={() => handleArrayFilter(filters.views, view.value, 'views')}
+                    className="justify-start"
                   >
                     {view.label}
                   </Button>
@@ -278,14 +225,15 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 
             {/* Themes */}
             <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">Themes</h3>
-              <div className="flex flex-wrap gap-2">
+              <h3 className="text-sm font-semibold text-gray-900 mb-4">Themes</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-3">
                 {themes.map((theme) => (
                   <Button
                     key={theme.value}
                     variant={filters.themes?.includes(theme.value) ? "default" : "outline"}
                     size="sm"
                     onClick={() => handleArrayFilter(filters.themes, theme.value, 'themes')}
+                    className="justify-start"
                   >
                     {theme.label}
                   </Button>
@@ -295,9 +243,9 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 
             {/* Guests */}
             <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">Max Guests</h3>
-              <div className="flex space-x-2">
-                {[2, 4, 6, 8, 10].map((guests) => (
+              <h3 className="text-sm font-semibold text-gray-900 mb-4">Max Guests</h3>
+              <div className="flex flex-wrap gap-3">
+                {[2, 4, 6, 8, 10, 12].map((guests) => (
                   <Button
                     key={guests}
                     variant={filters.maxGuests === guests ? "default" : "outline"}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Star, MapPin, Users, Mountain, Waves, Trees, Heart, ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,8 +8,12 @@ import PropertyCard from '@/components/PropertyCard';
 import { useProperties } from '@/hooks/useProperties';
 
 const Landing = () => {
+  const navigate = useNavigate();
   const { data: allProperties = [], isLoading } = useProperties();
   const featuredProperties = allProperties.filter(property => property.featured).slice(0, 3);
+  
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('');
   
   // Hero slider images
   const heroImages = [
@@ -37,44 +41,34 @@ const Landing = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
-    }, 5000); // Change image every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [heroImages.length]);
+
+  // Handle search
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/properties?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      navigate('/properties');
+    }
+  };
 
   // Enhanced Search Bar component
   const SearchBar = () => (
     <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-5xl mx-auto border border-gray-100">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-2">Destination</label>
           <div className="relative">
             <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
             <input 
               type="text" 
-              placeholder="Where are you going?" 
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            />
-          </div>
-        </div>
-        
-        <div className="lg:col-span-1">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Check-in</label>
-          <div className="relative">
-            <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <input 
-              type="date" 
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            />
-          </div>
-        </div>
-        
-        <div className="lg:col-span-1">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Check-out</label>
-          <div className="relative">
-            <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <input 
-              type="date" 
+              placeholder="Where are you going? (e.g., Jibhi, Himachal Pradesh)" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
@@ -85,22 +79,28 @@ const Landing = () => {
           <div className="relative">
             <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
             <select className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent appearance-none bg-white">
-              <option>2 adults</option>
-              <option>1 adult</option>
-              <option>3 adults</option>
-              <option>4 adults</option>
-              <option>5+ adults</option>
+              <option>2 guests</option>
+              <option>1 guest</option>
+              <option>3 guests</option>
+              <option>4 guests</option>
+              <option>5+ guests</option>
             </select>
           </div>
         </div>
+        
+        <div className="lg:col-span-1">
+          <label className="block text-sm font-medium text-gray-700 mb-2">&nbsp;</label>
+          <Button 
+            onClick={handleSearch}
+            className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-8 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-200"
+          >
+            <span>Search</span>
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+        </div>
       </div>
       
-      <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center">
-        <Button className="w-full sm:w-auto bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-8 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-200">
-          <span>Search Properties</span>
-          <ArrowRight className="ml-2 h-5 w-5" />
-        </Button>
-        
+      <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
         <div className="flex items-center space-x-6 text-sm text-gray-600">
           <div className="flex items-center">
             <input type="checkbox" className="mr-2 rounded border-gray-300" />
@@ -393,7 +393,7 @@ const Landing = () => {
           >
             {[
               { theme: 'honeymoon', label: 'Honeymoon', color: 'bg-pink-100 text-pink-700' },
-              { theme: 'family', label: 'Family', color: 'bg-blue-100 text-blue-700' },
+              { theme: 'family-getaway', label: 'Family', color: 'bg-blue-100 text-blue-700' },
               { theme: 'workation', label: 'Workation', color: 'bg-purple-100 text-purple-700' },
               { theme: 'eco-friendly', label: 'Eco-Friendly', color: 'bg-green-100 text-green-700' },
               { theme: 'adventure', label: 'Adventure', color: 'bg-orange-100 text-orange-700' }
@@ -404,7 +404,7 @@ const Landing = () => {
                     <div className={`${category.color} rounded-lg p-6 text-center transition-all duration-300 group-hover:scale-105 group-hover:shadow-md`}>
                       <div className="text-2xl mb-2">
                         {category.theme === 'honeymoon' && '💕'}
-                        {category.theme === 'family' && '👨‍👩‍👧‍👦'}
+                        {category.theme === 'family-getaway' && '👨‍👩‍👧‍👦'}
                         {category.theme === 'workation' && '💻'}
                         {category.theme === 'eco-friendly' && '🌿'}
                         {category.theme === 'adventure' && '🏔️'}
@@ -448,7 +448,7 @@ const Landing = () => {
               {
                 name: "Priya & Arjun",
                 location: "Mumbai",
-                comment: "The mountain villa in Manali was absolutely magical. Perfect for our anniversary getaway!",
+                comment: "The mountain villa in Jibhi was absolutely magical. Perfect for our anniversary getaway!",
                 rating: 5
               },
               {
@@ -460,7 +460,7 @@ const Landing = () => {
               {
                 name: "Rahul",
                 location: "Bangalore",
-                comment: "Working remotely from the riverside cabin was a dream. Great WiFi and even better views!",
+                comment: "Working remotely from the lakeside cottage was a dream. Great WiFi and even better views!",
                 rating: 5
               }
             ].map((testimonial, index) => (

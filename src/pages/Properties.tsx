@@ -1,19 +1,39 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useSearchParams } from 'react-router-dom';
 import PropertyCard from '@/components/PropertyCard';
 import PropertyFilters from '@/components/PropertyFilters';
 import { useProperties } from '@/hooks/useProperties';
 import { FilterOptions } from '@/types/property';
 
 const Properties = () => {
+  const [searchParams] = useSearchParams();
   const [filters, setFilters] = useState<FilterOptions>({});
   const { data: properties = [], isLoading, error } = useProperties();
+
+  // Initialize filters from URL parameters
+  useEffect(() => {
+    const initialFilters: FilterOptions = {};
+    
+    const search = searchParams.get('search');
+    const theme = searchParams.get('theme');
+    
+    if (search) {
+      initialFilters.location = search;
+    }
+    
+    if (theme) {
+      initialFilters.themes = [theme];
+    }
+    
+    setFilters(initialFilters);
+  }, [searchParams]);
 
   const filteredProperties = useMemo(() => {
     let filtered = [...properties];
 
-    // Location filter
+    // Location/Search filter (searches in location, state, and property name)
     if (filters.location) {
       const query = filters.location.toLowerCase();
       filtered = filtered.filter(property => 
@@ -129,7 +149,7 @@ const Properties = () => {
             Discover Unique Stays
           </h1>
           <p className="text-gray-600 text-lg">
-            {filteredProperties.length} properties found across India
+            {filteredProperties.length} {filteredProperties.length === 1 ? 'property' : 'properties'} found across India
           </p>
         </div>
       </div>
@@ -154,7 +174,12 @@ const Properties = () => {
               </svg>
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">No properties found</h3>
-            <p className="text-gray-600 mb-4">Try adjusting your filters to see more results.</p>
+            <p className="text-gray-600 mb-4">
+              {filters.location 
+                ? `No properties found for "${filters.location}". Try adjusting your search or filters.`
+                : 'Try adjusting your filters to see more results.'
+              }
+            </p>
           </motion.div>
         ) : (
           <motion.div 
