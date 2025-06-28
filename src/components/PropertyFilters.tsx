@@ -113,6 +113,17 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
     return count;
   };
 
+  // Simple handler that only updates local state
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearchSubmit();
+    }
+  };
+
   return (
     <div className="bg-white border-b sticky top-16 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -124,8 +135,8 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
               <Input
                 placeholder="Search by destination, state, or property name..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit()}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
                 className="pl-10 h-12"
               />
             </div>
