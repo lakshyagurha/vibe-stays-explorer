@@ -74,9 +74,8 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
     onFiltersChange(newFilters);
   };
 
-  const handleSearchChange = (value: string) => {
-    setSearchQuery(value);
-    const newFilters = { ...filters, location: value || undefined };
+  const handleSearchSubmit = () => {
+    const newFilters = { ...filters, location: searchQuery || undefined };
     setFilters(newFilters);
     onFiltersChange(newFilters);
   };
@@ -119,14 +118,23 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {/* Search and Filter Toggle */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <Input
-              placeholder="Search by destination, state, or property name..."
-              value={searchQuery}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              className="pl-10 h-12"
-            />
+          <div className="flex-1 flex space-x-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="Search by destination, state, or property name..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit()}
+                className="pl-10 h-12"
+              />
+            </div>
+            <Button
+              onClick={handleSearchSubmit}
+              className="h-12 px-6 bg-primary-600 hover:bg-primary-700"
+            >
+              Search
+            </Button>
           </div>
           
           <Button
