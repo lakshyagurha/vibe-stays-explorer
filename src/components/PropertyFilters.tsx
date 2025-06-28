@@ -19,45 +19,44 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState<FilterOptions>(initialFilters);
   const [searchQuery, setSearchQuery] = useState(initialFilters.location || '');
-  const [priceRange, setPriceRange] = useState<[number, number]>(initialFilters.priceRange || [1000, 50000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>(initialFilters.priceRange || [1000, 15000]);
 
   const propertyTypes = [
     { value: 'villa', label: 'Villa' },
-    { value: 'tent', label: 'Tent' },
-    { value: 'camp', label: 'Camp' },
-    { value: 'cottage', label: 'Cottage' },
     { value: 'resort', label: 'Resort' },
-    { value: 'homestay', label: 'Homestay' },
+    { value: 'cottage', label: 'Cottage' },
     { value: 'cabin', label: 'Cabin' },
     { value: 'treehouse', label: 'Treehouse' },
+    { value: 'tent', label: 'Tent' },
+    { value: 'homestay', label: 'Homestay' },
     { value: 'houseboat', label: 'Houseboat' }
   ];
 
   const views = [
-    { value: 'mountain', label: 'Mountain' },
-    { value: 'forest', label: 'Forest' },
-    { value: 'lake', label: 'Lake' },
-    { value: 'valley', label: 'Valley' },
-    { value: 'himalayas', label: 'Himalayas' },
-    { value: 'village', label: 'Village' },
-    { value: 'waterfall', label: 'Waterfall' },
-    { value: 'fieldview', label: 'Field View' },
-    { value: 'river', label: 'River' },
-    { value: 'jungle', label: 'Jungle' },
-    { value: 'ocean', label: 'Ocean' }
+    { value: 'mountain', label: 'Mountain View' },
+    { value: 'himalayas', label: 'Himalayan View' },
+    { value: 'ocean', label: 'Sea View' },
+    { value: 'lake', label: 'Lake View' },
+    { value: 'river', label: 'River View' },
+    { value: 'forest', label: 'Forest View' },
+    { value: 'jungle', label: 'Jungle View' },
+    { value: 'waterfall', label: 'Waterfall View' },
+    { value: 'valley', label: 'Valley View' },
+    { value: 'village', label: 'Village View' },
+    { value: 'fieldview', label: 'Field View' }
   ];
 
   const themes = [
-    { value: 'eco-friendly', label: 'Eco Friendly' },
-    { value: 'ayurveda-retreat', label: 'Ayurveda Retreat' },
-    { value: 'workation', label: 'Workation' },
     { value: 'adventure', label: 'Adventure' },
+    { value: 'romantic', label: 'Romantic' },
     { value: 'honeymoon', label: 'Honeymoon' },
     { value: 'family-getaway', label: 'Family Getaway' },
+    { value: 'eco-friendly', label: 'Eco Friendly' },
+    { value: 'off-grid', label: 'Off-grid' },
+    { value: 'workation', label: 'Workation' },
+    { value: 'ayurveda-retreat', label: 'Ayurveda Retreat' },
     { value: 'corporate-training', label: 'Corporate Training' },
-    { value: 'school-education-stays', label: 'School Education Stays' },
-    { value: 'romantic', label: 'Romantic' },
-    { value: 'off-grid', label: 'Off-grid' }
+    { value: 'school-education-stays', label: 'Education Stays' }
   ];
 
   const sortOptions = [
@@ -66,6 +65,16 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
     { value: 'price_low', label: 'Price: Low to High' },
     { value: 'price_high', label: 'Price: High to Low' },
     { value: 'newest', label: 'Newest' }
+  ];
+
+  const destinations = [
+    { value: 'jibhi', label: 'Jibhi, Himachal Pradesh' },
+    { value: 'agatti', label: 'Agatti, Lakshadweep' },
+    { value: 'varkala', label: 'Varkala, Kerala' },
+    { value: 'tehri', label: 'Tehri Lake, Uttarakhand' },
+    { value: 'ziro', label: 'Ziro Town, Arunachal Pradesh' },
+    { value: 'corbett', label: 'Jim Corbett, Uttarakhand' },
+    { value: 'cherrapunji', label: 'Cherrapunji, Meghalaya' }
   ];
 
   const handleArrayFilter = (
@@ -103,11 +112,18 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
     onFiltersChange(newFilters);
   };
 
+  const handleDestinationFilter = (destination: string) => {
+    setSearchQuery(destination);
+    const newFilters = { ...filters, location: destination };
+    setFilters(newFilters);
+    onFiltersChange(newFilters);
+  };
+
   const clearFilters = () => {
     const newFilters: FilterOptions = {};
     setFilters(newFilters);
     setSearchQuery('');
-    setPriceRange([1000, 50000]);
+    setPriceRange([1000, 15000]);
     onFiltersChange(newFilters);
   };
 
@@ -130,7 +146,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
-              placeholder="Search by location..."
+              placeholder="Search by destination (e.g., Jibhi, Varkala, Corbett)..."
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
               className="pl-10"
@@ -157,6 +173,22 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
               Clear
             </Button>
           )}
+        </div>
+
+        {/* Quick Destination Filters */}
+        <div className="flex items-center space-x-2 overflow-x-auto pb-2 mb-2">
+          <span className="text-sm text-gray-600 whitespace-nowrap">Popular:</span>
+          {destinations.slice(0, 4).map((destination) => (
+            <Button
+              key={destination.value}
+              variant="outline"
+              size="sm"
+              onClick={() => handleDestinationFilter(destination.label)}
+              className="whitespace-nowrap"
+            >
+              {destination.label.split(',')[0]}
+            </Button>
+          ))}
         </div>
 
         {/* Sort Options */}
@@ -186,11 +218,28 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
               <Slider
                 value={priceRange}
                 onValueChange={handlePriceChange}
-                max={100000}
-                min={500}
+                max={15000}
+                min={1000}
                 step={500}
                 className="w-full max-w-md"
               />
+            </div>
+
+            {/* All Destinations */}
+            <div>
+              <h3 className="text-sm font-medium text-gray-900 mb-3">Destinations</h3>
+              <div className="flex flex-wrap gap-2">
+                {destinations.map((destination) => (
+                  <Button
+                    key={destination.value}
+                    variant={searchQuery.includes(destination.label) ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleDestinationFilter(destination.label)}
+                  >
+                    {destination.label}
+                  </Button>
+                ))}
+              </div>
             </div>
 
             {/* Property Types */}
