@@ -13,16 +13,15 @@ const mockProperties: Property[] = [
     price: 8500,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4',
-      'https://images.unsplash.com/photo-1571896349842-33c89424de2d',
-      'https://images.unsplash.com/photo-1540541338287-41700207dee6',
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6',
-      'https://images.unsplash.com/photo-1502780402662-acc01917949e'
+    'https://images.unsplash.com/photo-1509600110300-21b9d5fedeb7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://media.istockphoto.com/id/471775841/photo/wood-cottage-with-a-beautiful-forest-and-mountain-views.jpg?s=1024x1024&w=is&k=20&c=2mrYBEZo7xCuHqmIk_2zTDvThhJB5UkVmGKibCMny2M=',
+    'https://media.istockphoto.com/id/1498977437/photo/mountain-town-in-grindelwald-switzerland.jpg?s=1024x1024&w=is&k=20&c=x5zWPNGtjEw0zO8rZQeIYRXrcEmHKXHCGXj296ERspc=',
+    'https://media.istockphoto.com/id/1383037775/photo/val-di-funes-south-tyrol.jpg?s=1024x1024&w=is&k=20&c=8K2FwyE4Wfz6XCJxIjwdZFKWTOvKYtjyoBhzKgV_Gis=',
+    'https://media.istockphoto.com/id/1383037775/photo/val-di-funes-south-tyrol.jpg?s=1024x1024&w=is&k=20&c=8K2FwyE4Wfz6XCJxIjwdZFKWTOvKYtjyoBhzKgV_Gis=',
     ],
     videos: [
-      'https://drive.google.com/file/d/1jyDGHDltiMvNzGEvhl7r_sB9NbQ5I5zR/preview',
-      'https://drive.google.com/file/d/1j8JidRIL7ONZexNFMtqnlIvieVC70QIR/preview',
-      'https://drive.google.com/file/d/1FtaMwe6lIwavPrp6Kfi4bePEDD2-Hqo2/preview'
+      'https://drive.google.com/file/d/1FtaMwe6lIwavPrp6Kfi4bePEDD2-Hqo2/preview',
+      'https://drive.google.com/file/d/1BD05ZZg-H6e0Ycbq0KfMvEE_fM04wa4r/preview',
     ],
     seasonalImages: [
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
@@ -59,10 +58,10 @@ const mockProperties: Property[] = [
     price: 6200,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151',
-      'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6'
+      'https://images.unsplash.com/photo-1738482224201-eb499b160d72?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1684059373820-102daf6a8594?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://plus.unsplash.com/premium_photo-1697730270201-bdfc5b81a675?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1629060256072-3db490a5863f?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     ],
     videos: [
       'https://drive.google.com/file/d/1BD05ZZg-H6e0Ycbq0KfMvEE_fM04wa4r/preview',
@@ -102,10 +101,10 @@ const mockProperties: Property[] = [
     price: 4800,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1540541338287-41700207dee6',
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6',
-      'https://images.unsplash.com/photo-1502780402662-acc01917949e',
-      'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3'
+      'https://images.unsplash.com/photo-1705051239816-4cf3d4d6d153?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1689344717207-00ea589a4c6e?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1689344717207-00ea589a4c6e?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1608314250398-f29a8531c460?q=80&w=1012&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     ],
     videos: [
       'https://drive.google.com/file/d/1x2X8UlXXVvU2tCQVmhf059AZZ_2Zw4Hu/preview',
@@ -147,14 +146,14 @@ const mockProperties: Property[] = [
     price: 12500,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1559827260-dc66d52bef19',
-      'https://images.unsplash.com/photo-1544551763-46a013bb70d5',
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
-      'https://images.unsplash.com/photo-1590004953392-5aba2e72269a'
+      'https://images.unsplash.com/photo-1562514641-27c1257ec709?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1568853810078-71e3a4868f61?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1750472740744-8db66805d32c?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1750472740744-8db66805d32c?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     ],
     videos: [
-      'https://drive.google.com/file/d/1kEQYF7OP3ZLwufRllI81zmUqyXF9ubSq/preview',
-      'https://drive.google.com/file/d/1PBAAZL6v11StUewFpgBQR3oA_rFIowNY/preview'
+      'https://drive.google.com/file/d/1hAjJwT1IrL8emR7W2DP3vNZwHvygJtdO/preview',
+      'https://drive.google.com/file/d/1x2X8UlXXVvU2tCQVmhf059AZZ_2Zw4Hu/preview'
     ],
     seasonalImages: [
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
@@ -190,10 +189,10 @@ const mockProperties: Property[] = [
     price: 15200,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
-      'https://images.unsplash.com/photo-1590004953392-5aba2e72269a',
-      'https://images.unsplash.com/photo-1544551763-46a013bb70d5',
-      'https://images.unsplash.com/photo-1559827260-dc66d52bef19'
+      'https://images.unsplash.com/photo-1684229441242-4dfb6219383f?q=80&w=2065&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1587242778887-79dacd896635?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1583429760131-b4e0bcef5ad8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1671340455400-b8c676bd7c48?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     ],
     videos: [
       'https://drive.google.com/file/d/1yo99kgMaTlfUly09nL4UAZ53XQlbNOvS/preview',
@@ -235,10 +234,10 @@ const mockProperties: Property[] = [
     price: 6500,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1587061949409-02df41d5e562',
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
-      'https://images.unsplash.com/photo-1440581572325-0bea30075d9d',
-      'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3'
+      'https://images.unsplash.com/photo-1597964755562-01c244307107?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1562789872-e29f9c353c4f?q=80&w=2067&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1562789872-e29f9c353c4f?q=80&w=2067&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1562789872-e29f9c353c4f?q=80&w=2067&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     ],
     videos: [
       'https://drive.google.com/file/d/12ziy5udhe9hBOUn_H4mTbEBYAg06xJQ0/preview',
@@ -278,10 +277,10 @@ const mockProperties: Property[] = [
     price: 5800,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1440581572325-0bea30075d9d',
-      'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6'
+      'https://images.unsplash.com/photo-1712254293792-1013ae15fafd?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://plus.unsplash.com/premium_photo-1724818361335-291394c25925?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1657628192087-657e0174afd8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1657628192087-657e0174afd8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     ],
     videos: [
       'https://drive.google.com/file/d/1Ilfb2Hoqsu6y0IWpHJCt9cFXDIHKZKqB/preview',
@@ -321,10 +320,10 @@ const mockProperties: Property[] = [
     price: 7200,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
-      'https://images.unsplash.com/photo-1587061949409-02df41d5e562',
-      'https://images.unsplash.com/photo-1440581572325-0bea30075d9d',
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b'
+      'https://plus.unsplash.com/premium_photo-1749814754236-05ef496ea076?q=80&w=1994&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1626970835171-d6bd720d578e?q=80&w=2645&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1661173641157-ef57b15bec2a?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1661173641157-ef57b15bec2a?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     ],
     videos: [
       'https://drive.google.com/file/d/1619mhh2EhFREu2bEMiWHScK9dQacoUux/preview',
@@ -366,10 +365,10 @@ const mockProperties: Property[] = [
     price: 5200,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1472396961693-142e6e269027',
-      'https://images.unsplash.com/photo-1590004953392-5aba2e72269a',
-      'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
-      'https://images.unsplash.com/photo-1502780402662-acc01917949e'
+      'https://images.unsplash.com/photo-1716292690672-cac6b9008447?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1719057450766-8d0793f53948?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D',
+      'https://images.unsplash.com/photo-1690914016871-d76bbc0fb1af?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1690914016871-d76bbc0fb1af?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     ],
     videos: [
       'https://drive.google.com/file/d/1GcJgyZxSpOrmrBidiF3zsxoBjke0Dhru/preview',
@@ -409,10 +408,10 @@ const mockProperties: Property[] = [
     price: 6800,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1502780402662-acc01917949e',
-      'https://images.unsplash.com/photo-1472396961693-142e6e269027',
-      'https://images.unsplash.com/photo-1590004953392-5aba2e72269a',
-      'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3'
+      'https://media-cdn.tripadvisor.com/media/photo-s/2c/11/3f/fa/caption.jpg',
+      'https://cf.bstatic.com/xdata/images/hotel/max1024x768/468559763.jpg?k=87094df132bb455cd8ba8726e087205817adbef4130b55b004919a832c6e2c7d&o=&hp=1',
+      'https://cf.bstatic.com/xdata/images/hotel/max1024x768/468559763.jpg?k=87094df132bb455cd8ba8726e087205817adbef4130b55b004919a832c6e2c7d&o=&hp=1',
+      'https://pix10.agoda.net/property/60249944/0/1cbd72a4dcc4086c7bebe4eb7a2d274e.jpeg?ce=0&s=414x232'
     ],
     videos: [
       'https://drive.google.com/file/d/1jyDGHDltiMvNzGEvhl7r_sB9NbQ5I5zR/preview',
@@ -445,50 +444,7 @@ const mockProperties: Property[] = [
     updatedAt: '2024-01-10T00:00:00Z'
   },
 
-  // Ziro Town, Arunachal Pradesh - 2 properties
-  {
-    id: '11',
-    name: 'Riverside Valley Cottage',
-    location: 'Ziro Town',
-    state: 'Arunachal Pradesh',
-    price: 4200,
-    priceUnit: 'night',
-    images: [
-      'https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151',
-      'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6'
-    ],
-    videos: [
-      'https://drive.google.com/file/d/1FtaMwe6lIwavPrp6Kfi4bePEDD2-Hqo2/preview',
-      'https://drive.google.com/file/d/1BD05ZZg-H6e0Ycbq0KfMvEE_fM04wa4r/preview'
-    ],
-    seasonalImages: [
-      'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
-      'https://images.unsplash.com/photo-1551524164-687a55dd1126'
-    ],
-    description: 'Peaceful cottage along the pristine rivers of Ziro Town, Arunachal Pradesh. Experience the unique Apatani culture.',
-    shortDescription: 'Riverside cottage in cultural Ziro Town, Arunachal Pradesh',
-    maxGuests: 6,
-    bedrooms: 3,
-    bathrooms: 2,
-    propertyType: 'cottage',
-    views: ['river'],
-    themes: ['off-grid', 'adventure', 'eco-friendly'],
-    amenities: ['River View', 'Cultural Tours', 'Trekking Base', 'WiFi', 'Traditional Meals'],
-    nearbyExperiences: ['Apatani village tours', 'Ziro Music Festival', 'River trekking'],
-    localTips: ['Visit during festival season', 'Learn about Apatani culture'],
-    hostName: 'Tashi Dorje',
-    contactNumber: '+91-9876543220',
-    whatsappNumber: '+91-9876543220',
-    rating: 4.5,
-    reviewCount: 15,
-    reviews: [],
-    featured: true,
-    verified: true,
-    createdAt: '2024-01-11T00:00:00Z',
-    updatedAt: '2024-01-11T00:00:00Z'
-  },
+
   {
     id: '12',
     name: 'Apatani Heritage Homestay',
@@ -497,10 +453,10 @@ const mockProperties: Property[] = [
     price: 3800,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6',
-      'https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151',
-      'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b'
+      'https://images.unsplash.com/photo-1609514272966-176e5cda86e8?q=80&w=2067&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1720481688666-e3da0817e3ec?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://plus.unsplash.com/premium_photo-1675745329954-9639d3b74bbf?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://plus.unsplash.com/premium_photo-1675745329954-9639d3b74bbf?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     ],
     videos: [
       'https://drive.google.com/file/d/1hAjJwT1IrL8emR7W2DP3vNZwHvygJtdO/preview',
@@ -542,7 +498,7 @@ const mockProperties: Property[] = [
     price: 7800,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1440581572325-0bea30075d9d',
+      'https://www.thongabeachlodge.co.za/wp-content/uploads/sites/15/2018/02/ThongaBeach_Rooms_Family-Rooms_Banner.jpg',
       'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
       'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
       'https://images.unsplash.com/photo-1564013799919-ab600027ffc6'
@@ -585,8 +541,8 @@ const mockProperties: Property[] = [
     price: 9200,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
-      'https://images.unsplash.com/photo-1440581572325-0bea30075d9d',
+      'https://pix10.agoda.net/hotelImages/338387/0/ea61f0c69e5da245ebeb30e9386b3816.jpg?ce=0&s=414x232',
+      'https://pix10.agoda.net/hotelImages/338387/0/ea61f0c69e5da245ebeb30e9386b3816.jpg?ce=0&s=414x232',
       'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
       'https://images.unsplash.com/photo-1564013799919-ab600027ffc6'
     ],
@@ -628,7 +584,7 @@ const mockProperties: Property[] = [
     price: 5600,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
+      'https://dandelistayinn.com/assets/img/all-resorts/jungle-edge/1.jpg',
       'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
       'https://images.unsplash.com/photo-1440581572325-0bea30075d9d',
       'https://images.unsplash.com/photo-1564013799919-ab600027ffc6'
@@ -673,14 +629,14 @@ const mockProperties: Property[] = [
     price: 5800,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6',
-      'https://images.unsplash.com/photo-1440581572325-0bea30075d9d',
-      'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b'
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAMu6fh34Kl1MCqEh4V0IWEkSSB7atBHwGWg&s',
+      'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/3e/bf/76/the-canopy-rainforest.jpg?w=900&h=-1&s=1',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsy1xJOyVSTOQHir__RiW3FAOxls-PqUTJfw&s',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQANf1ZYyCR-4m6PdhoYpyxTAK3a9KGtqjBQw&s'
     ],
     videos: [
-      'https://drive.google.com/file/d/16--wutfajVswutK7f4Y8qhb6-3m6iv0l/preview',
-      'https://drive.google.com/file/d/1Ilfb2Hoqsu6y0IWpHJCt9cFXDIHKZKqB/preview'
+      'https://drive.google.com/file/d/12ziy5udhe9hBOUn_H4mTbEBYAg06xJQ0/preview',
+      'https://drive.google.com/file/d/16--wutfajVswutK7f4Y8qhb6-3m6iv0l/preview'
     ],
     seasonalImages: [
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
@@ -716,7 +672,7 @@ const mockProperties: Property[] = [
     price: 6500,
     priceUnit: 'night',
     images: [
-      'https://images.unsplash.com/photo-1440581572325-0bea30075d9d',
+      'https://cf.bstatic.com/xdata/images/hotel/max1024x768/60478894.jpg?k=60b9e5e10db71e6e5cc60288201598d57c2e8141d41f0d3d345cd86e812d3ff2&o=&hp=1',
       'https://images.unsplash.com/photo-1564013799919-ab600027ffc6',
       'https://images.unsplash.com/photo-1578662015808-cd82bfbf37b3',
       'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b'
