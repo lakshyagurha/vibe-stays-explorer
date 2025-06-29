@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Star, MapPin, Users, Mountain, Waves, Trees, Heart, ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
+import { ArrowRight, Star, MapPin, Users, Mountain, Waves, Trees, Heart, ChevronLeft, ChevronRight, Calendar, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Calendar as CalendarComponent } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import PropertyCard from '@/components/PropertyCard';
 import { useProperties } from '@/hooks/useProperties';
+import { format } from 'date-fns';
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -14,6 +17,11 @@ const Landing = () => {
   
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
+  const [checkInDate, setCheckInDate] = useState<Date>();
+  const [checkOutDate, setCheckOutDate] = useState<Date>();
+  const [guestCount, setGuestCount] = useState('2 guests');
+  const [showDestinationSuggestions, setShowDestinationSuggestions] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   
   // Hero slider images
   const heroImages = [
@@ -37,6 +45,18 @@ const Landing = () => {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Popular destinations for suggestions
+  const popularDestinations = [
+    { name: 'Jibhi, Himachal Pradesh', type: 'Mountain Retreat' },
+    { name: 'Rishikesh, Uttarakhand', type: 'Adventure Hub' },
+    { name: 'Munnar, Kerala', type: 'Tea Gardens' },
+    { name: 'Alleppey, Kerala', type: 'Backwaters' },
+    { name: 'Jaisalmer, Rajasthan', type: 'Desert Camp' },
+    { name: 'Agatti, Lakshadweep', type: 'Island Paradise' },
+    { name: 'Manali, Himachal Pradesh', type: 'Himalayan Valley' },
+    { name: 'Coorg, Karnataka', type: 'Coffee Estates' }
+  ];
+
   // Auto-slide effect
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,61 +66,202 @@ const Landing = () => {
     return () => clearInterval(interval);
   }, [heroImages.length]);
 
+  // Handle click outside destination suggestions
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.destination-input-container')) {
+        setShowDestinationSuggestions(false);
+      }
+    };
+
+    if (showDestinationSuggestions) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDestinationSuggestions]);
+
   // Handle search
   const handleSearch = () => {
+    setIsSearching(true);
+    
+    const searchParams = new URLSearchParams();
+    
     if (searchQuery.trim()) {
-      navigate(`/properties?search=${encodeURIComponent(searchQuery.trim())}`);
-    } else {
-      navigate('/properties');
+      searchParams.append('search', searchQuery.trim());
     }
+    
+    // Always add fake dates for demonstration
+    if (checkInDate) {
+      searchParams.append('checkIn', format(checkInDate, 'yyyy-MM-dd'));
+    } else {
+      // Add a fake check-in date if none selected
+      const fakeCheckIn = new Date();
+      fakeCheckIn.setDate(fakeCheckIn.getDate() + 7); // 7 days from now
+      searchParams.append('checkIn', format(fakeCheckIn, 'yyyy-MM-dd'));
+    }
+    
+    if (checkOutDate) {
+      searchParams.append('checkOut', format(checkOutDate, 'yyyy-MM-dd'));
+    } else {
+      // Add a fake check-out date if none selected
+      const fakeCheckOut = new Date();
+      fakeCheckOut.setDate(fakeCheckOut.getDate() + 10); // 10 days from now
+      searchParams.append('checkOut', format(fakeCheckOut, 'yyyy-MM-dd'));
+    }
+    
+    if (guestCount) {
+      searchParams.append('guests', guestCount);
+    }
+    
+    const queryString = searchParams.toString();
+    console.log('Navigating to:', `/properties?${queryString}`);
+    
+    // Small delay to show loading state
+    setTimeout(() => {
+      navigate(`/properties?${queryString}`);
+      setIsSearching(false);
+    }, 300);
+  };
+
+  // Handle destination selection
+  const handleDestinationSelect = (destination: string) => {
+    setSearchQuery(destination);
+    setShowDestinationSuggestions(false);
   };
 
   // Enhanced Search Bar component
   const SearchBar = () => (
-    <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-5xl mx-auto border border-gray-100">
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <div className="lg:col-span-2">
+    <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-6xl mx-auto border border-gray-100">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+        {/* Destination Field */}
+        <div className="lg:col-span-2 relative destination-input-container">
           <label className="block text-sm font-medium text-gray-700 mb-2">Destination</label>
           <div className="relative">
             <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
             <input 
               type="text" 
-              placeholder="Where are you going? (e.g., Jibhi, Himachal Pradesh)" 
+              placeholder="Where are you going?" 
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setShowDestinationSuggestions(e.target.value.length > 0);
+              }}
+              onFocus={() => setShowDestinationSuggestions(true)}
               onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
+            {showDestinationSuggestions && (
+              <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-xl shadow-lg z-50 mt-1 max-h-60 overflow-y-auto">
+                {popularDestinations
+                  .filter(dest => 
+                    dest.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    dest.type.toLowerCase().includes(searchQuery.toLowerCase())
+                  )
+                  .map((dest, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleDestinationSelect(dest.name)}
+                      className="w-full text-left px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 flex flex-col"
+                    >
+                      <div className="font-medium text-gray-900">{dest.name}</div>
+                      <div className="text-sm text-gray-500">{dest.type}</div>
+                    </button>
+                  ))}
+                {popularDestinations.filter(dest => 
+                  dest.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                  dest.type.toLowerCase().includes(searchQuery.toLowerCase())
+                ).length === 0 && searchQuery.length > 0 && (
+                  <div className="px-4 py-3 text-gray-500 text-sm">
+                    No destinations found. Try a different search term.
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
         
+        {/* Check-in Date */}
         <div className="lg:col-span-1">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Guests</label>
-          <div className="relative">
-            <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <select className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent appearance-none bg-white">
-              <option>2 guests</option>
-              <option>1 guest</option>
-              <option>3 guests</option>
-              <option>4 guests</option>
-              <option>5+ guests</option>
-            </select>
-          </div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Check-in</label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className="w-full justify-start text-left font-normal pl-3 pr-3 py-3 h-auto border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500"
+              >
+                <Calendar className="mr-2 h-4 w-4" />
+                {checkInDate ? format(checkInDate, 'MMM dd') : 'Select date'}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <CalendarComponent
+                mode="single"
+                selected={checkInDate}
+                onSelect={setCheckInDate}
+                disabled={(date) => date < new Date()}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        {/* Check-out Date */}
+        <div className="lg:col-span-1">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Check-out</label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className="w-full justify-start text-left font-normal pl-3 pr-3 py-3 h-auto border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500"
+              >
+                <Calendar className="mr-2 h-4 w-4" />
+                {checkOutDate ? format(checkOutDate, 'MMM dd') : 'Select date'}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <CalendarComponent
+                mode="single"
+                selected={checkOutDate}
+                onSelect={setCheckOutDate}
+                disabled={(date) => 
+                  date < new Date() || 
+                  (checkInDate ? date <= checkInDate : false)
+                }
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </div>
         
+        {/* Search Button */}
         <div className="lg:col-span-1">
           <label className="block text-sm font-medium text-gray-700 mb-2">&nbsp;</label>
           <Button 
             onClick={handleSearch}
             className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-8 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-200"
+            disabled={isSearching}
           >
-            <span>Search</span>
-            <ArrowRight className="ml-2 h-5 w-5" />
+            {isSearching ? (
+              <>
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                <span>Searching...</span>
+              </>
+            ) : (
+              <>
+                <Search className="mr-2 h-5 w-5" />
+                <span>{searchQuery.trim() ? 'Search' : 'Explore All'}</span>
+              </>
+            )}
           </Button>
         </div>
       </div>
       
-      <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
+      {/* Additional Options */}
+      <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
         <div className="flex items-center space-x-6 text-sm text-gray-600">
           <div className="flex items-center">
             <input type="checkbox" className="mr-2 rounded border-gray-300" />
@@ -110,6 +271,22 @@ const Landing = () => {
             <input type="checkbox" className="mr-2 rounded border-gray-300" />
             <span>Pet-friendly only</span>
           </div>
+        </div>
+        
+        {/* Guest Count */}
+        <div className="flex items-center space-x-2">
+          <Users className="h-4 w-4 text-gray-400" />
+          <select 
+            value={guestCount}
+            onChange={(e) => setGuestCount(e.target.value)}
+            className="text-sm text-gray-600 bg-transparent border-none focus:outline-none"
+          >
+            <option>1 guest</option>
+            <option>2 guests</option>
+            <option>3 guests</option>
+            <option>4 guests</option>
+            <option>5+ guests</option>
+          </select>
         </div>
       </div>
     </div>

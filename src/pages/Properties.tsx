@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
@@ -18,6 +17,11 @@ const Properties = () => {
     
     const search = searchParams.get('search');
     const theme = searchParams.get('theme');
+    const checkIn = searchParams.get('checkIn');
+    const checkOut = searchParams.get('checkOut');
+    const guests = searchParams.get('guests');
+    
+    console.log('URL Search Params:', { search, theme, checkIn, checkOut, guests });
     
     if (search) {
       initialFilters.location = search;
@@ -26,21 +30,74 @@ const Properties = () => {
     if (theme) {
       initialFilters.themes = [theme];
     }
+
+    if (guests) {
+      const guestNumber = parseInt(guests.split(' ')[0]);
+      if (!isNaN(guestNumber)) {
+        initialFilters.maxGuests = guestNumber;
+      }
+    }
     
+    console.log('Initial Filters:', initialFilters);
     setFilters(initialFilters);
   }, [searchParams]);
 
+  // Get search parameters for display
+  const search = searchParams.get('search');
+  const checkIn = searchParams.get('checkIn');
+  const checkOut = searchParams.get('checkOut');
+  const guests = searchParams.get('guests');
+
+  // Format dates for display
+  const formatDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    } catch (error) {
+      return dateString; // Return as is if parsing fails
+    }
+  };
+
   const filteredProperties = useMemo(() => {
     let filtered = [...properties];
+    
+    console.log('Total properties:', filtered.length);
+    console.log('Current filters:', filters);
 
     // Location/Search filter (searches in location, state, and property name)
     if (filters.location) {
-      const query = filters.location.toLowerCase();
-      filtered = filtered.filter(property => 
-        property.location.toLowerCase().includes(query) ||
-        property.state.toLowerCase().includes(query) ||
-        property.name.toLowerCase().includes(query)
-      );
+      const query = filters.location.toLowerCase().trim();
+      const searchTerms = query.split(',').map(term => term.trim());
+      
+      console.log('Search query:', query);
+      console.log('Search terms:', searchTerms);
+      
+      filtered = filtered.filter(property => {
+        const propertyText = [
+          property.location.toLowerCase(),
+          property.state.toLowerCase(),
+          property.name.toLowerCase()
+        ].join(' ');
+        
+        // Check if any search term matches any part of the property
+        const matches = searchTerms.some(term => 
+          propertyText.includes(term) ||
+          property.location.toLowerCase().includes(term) ||
+          property.state.toLowerCase().includes(term) ||
+          property.name.toLowerCase().includes(term)
+        );
+        
+        if (matches) {
+          console.log('Property matches:', property.name, property.location, property.state);
+        }
+        
+        return matches;
+      });
+      
+      console.log('Properties after location filter:', filtered.length);
     }
 
     // Property type filter
@@ -148,6 +205,30 @@ const Properties = () => {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Discover Unique Stays
           </h1>
+          
+          {/* Search Summary */}
+          {(search || checkIn || checkOut || guests) && (
+            <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                {search && (
+                  <div className="flex items-center">
+                    <span className="font-medium">📍 {search}</span>
+                  </div>
+                )}
+                {checkIn && checkOut && (
+                  <div className="flex items-center">
+                    <span className="font-medium">📅 {formatDate(checkIn)} - {formatDate(checkOut)}</span>
+                  </div>
+                )}
+                {guests && (
+                  <div className="flex items-center">
+                    <span className="font-medium">👥 {guests}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+          
           <p className="text-gray-600 text-lg">
             {filteredProperties.length} {filteredProperties.length === 1 ? 'property' : 'properties'} found across India
           </p>
